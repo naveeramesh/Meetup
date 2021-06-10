@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "101538836335",
+    "project_id": "meetup-cafa4",
+    "storage_bucket": "meetup-cafa4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101538836335:android:3a94ec2c5774d54200429a",
+        "android_client_info": {
+          "package_name": "com.example.meet_ups"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101538836335-9tsert0ul6t3hmft3tcouhphfl63k3k2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx9RYTQi78LhPQHlhdzssZ6S0rFB5X0vs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101538836335-9tsert0ul6t3hmft3tcouhphfl63k3k2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
