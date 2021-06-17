@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:meet_ups/Pages/HomeScreen.dart';
 import 'package:meet_ups/Services/Sharedpreferences.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:toast/toast.dart';
 
 class ChatRoom extends StatefulWidget {
   final String info;
@@ -24,10 +25,10 @@ class _ChatRoomState extends State<ChatRoom> {
   void initState() {
     // TODO: implement initState
     name = widget.info;
-    userid = Meetup.sharedPreferences.getString('username') +
+    userid = Meetup.sharedPreferences.getString('username').toLowerCase() +
         "_" +
         name.toLowerCase();
-    getterid = name +
+    getterid = name.toLowerCase() +
         "_" +
         Meetup.sharedPreferences.getString('username').toLowerCase();
     readlocal();
@@ -183,17 +184,26 @@ class _ChatRoomState extends State<ChatRoom> {
                       borderSide: BorderSide(color: Colors.black)),
                   suffixIcon: IconButton(
                       onPressed: () {
-                        FirebaseFirestore.instance
-                            .collection('ChatRoom')
-                            .doc(chatroom_id)
-                            .set({
-                          'users': [
-                            Meetup.sharedPreferences.getString('username'),
-                            name
-                          ],
-                          'chatroomid': chatroom_id,
-                          'imageurl': widget.image,
-                        });
+                        messagecontroller.text.isEmpty
+                            ? Toast.show('Write a msg to send', context,
+                                duration: Toast.LENGTH_LONG,
+                                backgroundColor: Colors.purple,
+                                 gravity: Toast.BOTTOM,
+                                textColor: Colors.white)
+                            : FirebaseFirestore.instance
+                                .collection('ChatRoom')
+                                .doc(chatroom_id)
+                                .set({
+                                'messagedby': Meetup.sharedPreferences
+                                    .getString('username'),
+                                'users': [
+                                  Meetup.sharedPreferences
+                                      .getString('username'),
+                                  name
+                                ],
+                                'chatroomid': chatroom_id,
+                                'imageurl': widget.image,
+                              });
                         FirebaseFirestore.instance
                             .collection('ChatRoom')
                             .doc(chatroom_id)

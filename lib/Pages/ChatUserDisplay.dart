@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meet_ups/Pages/ChatRoom.dart';
+import 'package:meet_ups/Pages/HomeScreen.dart';
+import 'package:meet_ups/Services/Sharedpreferences.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Chatuserdisplay extends StatefulWidget {
   const Chatuserdisplay({Key key}) : super(key: key);
@@ -36,8 +40,11 @@ class _ChatuserdisplayState extends State<Chatuserdisplay> {
           )),
       body: Container(
         child: StreamBuilder<QuerySnapshot>(
-            stream:
-                FirebaseFirestore.instance.collection('ChatRoom').snapshots(),
+            stream: FirebaseFirestore.instance
+                .collection('ChatRoom')
+                .where('messagedby',
+                    isEqualTo: Meetup.sharedPreferences.getString('username'))
+                .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
@@ -46,6 +53,51 @@ class _ChatuserdisplayState extends State<Chatuserdisplay> {
                         new AlwaysStoppedAnimation<Color>(Colors.purpleAccent),
                   ),
                 );
+              } else {
+                return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: snapshot.data.docs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  child: ChatRoom(
+                                    info: snapshot.data.docs[index]['users'][1],
+                                    image: snapshot.data.docs[index]
+                                        ['imageurl'],
+                                  ),
+                                  type: PageTransitionType.fade));
+                        },
+                        child: Container(
+                          height: 60,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey[100], width: 1)),
+                          child: Row(children: [
+                            SizedBox(
+                              width: 10,
+                            ),
+                            CircleAvatar(
+                                radius: 20,
+                                backgroundColor: Colors.grey,
+                                backgroundImage: NetworkImage(
+                                    snapshot.data.docs[index]['imageurl'])),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              snapshot.data.docs[index]['users'][1],
+                              style: GoogleFonts.josefinSans(
+                                  color: Colors.purple,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ]),
+                        ),
+                      );
+                    });
               }
             }),
       ),
