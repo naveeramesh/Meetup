@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meet_ups/Error/LoadingErrorDialog.dart';
+import 'package:meet_ups/Pages/Category.dart';
 import 'package:meet_ups/Pages/HomeScreen.dart';
 import 'package:meet_ups/Pages/Signin.dart';
 import 'package:meet_ups/Services/Sharedpreferences.dart';
@@ -52,15 +53,14 @@ class _LoginState extends State<Login> {
     }
   }
 
-  readdata(User user) async {
+  readdata(User fuser) async {
     FirebaseFirestore.instance
         .collection('Users')
-        .doc(user.uid)
+        .doc(fuser.uid)
         .get()
         .then((dataSnapshot) async {
       print(dataSnapshot.data()['uid']);
       print(dataSnapshot.data()['email']);
-      print(dataSnapshot.data()['username']);
 
       await Meetup.sharedPreferences
           .setString("username", dataSnapshot.data()["username"]);
@@ -74,7 +74,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(9, 21, 27, 1),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -88,7 +88,7 @@ class _LoginState extends State<Login> {
                       fontSize: 30,
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(237, 117, 127, 1)),
+                      color: Colors.purple),
                 ),
               ),
               SizedBox(
@@ -97,8 +97,9 @@ class _LoginState extends State<Login> {
               Container(
                 height: 3,
                 width: 50,
-                decoration:
-                    BoxDecoration(color: Color.fromRGBO(237, 117, 127, 1)),
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: <Color>[Colors.purple, Colors.pinkAccent])),
               ),
               SizedBox(
                 height: 40,
@@ -107,7 +108,7 @@ class _LoginState extends State<Login> {
                   style: GoogleFonts.josefinSans(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
-                    color: Colors.white,
+                    color: Colors.grey,
                   )),
               SizedBox(
                 height: 100,
@@ -127,20 +128,16 @@ class _LoginState extends State<Login> {
                                 ? null
                                 : "Please provide a valid email";
                           },
-                          cursorColor: Color.fromRGBO(227, 117, 127, 1),
+                          cursorColor: Colors.purple,
                           style: GoogleFonts.josefinSans(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           controller: emailcontroller,
                           decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color:
-                                          Color.fromRGBO(2237, 117, 127, 1))),
+                                  borderSide: BorderSide(color: Colors.black)),
                               focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color:
-                                          Color.fromRGBO(2237, 117, 127, 1))),
+                                  borderSide: BorderSide(color: Colors.black)),
                               hintText: 'Email',
                               hintStyle: GoogleFonts.josefinSans(
                                   color: Colors.grey, letterSpacing: 1)),
@@ -157,19 +154,15 @@ class _LoginState extends State<Login> {
                                 ? 'Provide a strong password'
                                 : null;
                           },
-                          cursorColor: Color.fromRGBO(227, 117, 127, 1),
-                          style: GoogleFonts.josefinSans(color: Colors.white),
+                          cursorColor: Colors.purple,
+                          style: GoogleFonts.josefinSans(color: Colors.black),
                           controller: passwordcontroller,
                           obscureText: true,
                           decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color:
-                                          Color.fromRGBO(2237, 117, 127, 1))),
+                                  borderSide: BorderSide(color: Colors.black)),
                               focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color:
-                                          Color.fromRGBO(2237, 117, 127, 1))),
+                                  borderSide: BorderSide(color: Colors.black)),
                               hintText: 'Password',
                               hintStyle: GoogleFonts.josefinSans(
                                   color: Colors.grey, letterSpacing: 1)),
@@ -184,7 +177,7 @@ class _LoginState extends State<Login> {
                           child: Text(
                             'Forget Password ?',
                             style: GoogleFonts.josefinSans(
-                                color: Colors.white70,
+                                color: Colors.grey,
                                 letterSpacing: 1,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -202,7 +195,10 @@ class _LoginState extends State<Login> {
                         height: 60,
                         width: 200,
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(2237, 117, 127, 1),
+                          gradient: LinearGradient(colors: <Color>[
+                            Colors.purple,
+                            Colors.pinkAccent
+                          ]),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Center(
@@ -228,10 +224,10 @@ class _LoginState extends State<Login> {
                                 child: Signin(),
                                 type: PageTransitionType.leftToRight));
                       },
-                      child: Text(
-                        'New User ? Create account',
-                        style: TextStyle(color: Colors.white70),
-                      ),
+                      child: Text('New User ? Create account',
+                          style: GoogleFonts.josefinSans(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey)),
                     ),
                   ],
                 ),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:meet_ups/Error/AlertErrorDialog.dart';
 import 'package:meet_ups/Error/LoadingErrorDialog.dart';
 import 'package:meet_ups/Pages/Category.dart';
@@ -73,7 +74,7 @@ class _SigninState extends State<Signin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(9, 21, 27, 1),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -87,7 +88,7 @@ class _SigninState extends State<Signin> {
                       fontSize: 30,
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(237, 117, 127, 1)),
+                      color: Colors.purple),
                 ),
               ),
               SizedBox(
@@ -96,8 +97,9 @@ class _SigninState extends State<Signin> {
               Container(
                 height: 3,
                 width: 50,
-                decoration:
-                    BoxDecoration(color: Color.fromRGBO(237, 117, 127, 1)),
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: <Color>[Colors.purple, Colors.pinkAccent])),
               ),
               SizedBox(
                 height: 40,
@@ -106,11 +108,19 @@ class _SigninState extends State<Signin> {
                   style: GoogleFonts.josefinSans(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
-                    color: Colors.white,
+                    color: Colors.grey,
                   )),
               SizedBox(
-                height: 50,
+                height: 40,
               ),
+              // Container(
+              //   height: 100,
+              //   child: Lottie.network(
+              //       'https://assets10.lottiefiles.com/packages/lf20_5Vz7xX.json'),
+              // ),
+              // SizedBox(
+              //   height: 40,
+              // ),
               Form(
                 key: _formKey,
                 child: Column(
@@ -125,18 +135,14 @@ class _SigninState extends State<Signin> {
                                 ? 'Provide a valid username'
                                 : null;
                           },
-                          cursorColor: Color.fromRGBO(227, 117, 127, 1),
-                          style: GoogleFonts.josefinSans(color: Colors.white),
+                          cursorColor: Colors.purple,
+                          style: GoogleFonts.josefinSans(color: Colors.black),
                           controller: usernamecontroller,
                           decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color:
-                                          Color.fromRGBO(2237, 117, 127, 1))),
+                                  borderSide: BorderSide(color: Colors.black)),
                               focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color:
-                                          Color.fromRGBO(2237, 117, 127, 1))),
+                                  borderSide: BorderSide(color: Colors.black)),
                               hintText: 'Username',
                               hintStyle: GoogleFonts.josefinSans(
                                   color: Colors.grey, letterSpacing: 1)),
@@ -157,20 +163,16 @@ class _SigninState extends State<Signin> {
                                 ? null
                                 : "Please provide a valid email";
                           },
-                          cursorColor: Color.fromRGBO(227, 117, 127, 1),
+                          cursorColor: Colors.purple,
                           style: GoogleFonts.josefinSans(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                           controller: emailcontroller,
                           decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color:
-                                          Color.fromRGBO(2237, 117, 127, 1))),
+                                  borderSide: BorderSide(color: Colors.black)),
                               focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color:
-                                          Color.fromRGBO(2237, 117, 127, 1))),
+                                  borderSide: BorderSide(color: Colors.black)),
                               hintText: 'Email',
                               hintStyle: GoogleFonts.josefinSans(
                                   color: Colors.grey, letterSpacing: 1)),
@@ -187,19 +189,15 @@ class _SigninState extends State<Signin> {
                                 ? 'Provide a strong password'
                                 : null;
                           },
-                          cursorColor: Color.fromRGBO(227, 117, 127, 1),
-                          style: GoogleFonts.josefinSans(color: Colors.white),
+                          cursorColor: Colors.purple,
+                          style: GoogleFonts.josefinSans(color: Colors.black),
                           controller: passwordcontroller,
                           obscureText: true,
                           decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color:
-                                          Color.fromRGBO(2237, 117, 127, 1))),
+                                  borderSide: BorderSide(color: Colors.black)),
                               focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color:
-                                          Color.fromRGBO(2237, 117, 127, 1))),
+                                  borderSide: BorderSide(color: Colors.black)),
                               hintText: 'Password',
                               hintStyle: GoogleFonts.josefinSans(
                                   color: Colors.grey, letterSpacing: 1)),
@@ -217,7 +215,10 @@ class _SigninState extends State<Signin> {
                         height: 60,
                         width: 200,
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(2237, 117, 127, 1),
+                          gradient: LinearGradient(colors: <Color>[
+                            Colors.purple,
+                            Colors.pinkAccent
+                          ]),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Center(
@@ -243,10 +244,10 @@ class _SigninState extends State<Signin> {
                                 child: Login(),
                                 type: PageTransitionType.leftToRight));
                       },
-                      child: Text(
-                        'Already an User ? Login',
-                        style: TextStyle(color: Colors.white70),
-                      ),
+                      child: Text('Already an User ? Login',
+                          style: GoogleFonts.josefinSans(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey)),
                     ),
                   ],
                 ),

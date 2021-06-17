@@ -1,6 +1,13 @@
+import 'dart:io';
+import 'package:flutter/rendering.dart';
+import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meet_ups/Pages/Subcategory.dart';
 import 'package:meet_ups/Services/Sharedpreferences.dart';
 import 'package:page_transition/page_transition.dart';
@@ -16,12 +23,42 @@ class Category extends StatefulWidget {
 class _CategoryState extends State<Category> {
   List category = [];
   String gender;
+  // String uploadUrl;
+
   TextEditingController agecontroller = TextEditingController();
+  TextEditingController aboutcontroller = TextEditingController();
+  TextEditingController locationcontroller = TextEditingController();
+  PickedFile image;
+
+  void gallery() async {
+    final _userimage =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+    setState(() {
+      image = _userimage;
+    });
+  }
+
+  void camera() async {
+    final _userimage = await ImagePicker().getImage(source: ImageSource.camera);
+    setState(() {
+      image = _userimage;
+    });
+  }
+
+  uploadimage() async {
+    String fileName = basename(image.path); //Get File Name - Or set one
+    Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('uploads/$fileName');
+    TaskSnapshot uploadTask =
+        await firebaseStorageRef.putFile(File(image.path));
+    String url = await uploadTask.ref.getDownloadURL();
+    return url;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(9, 21, 27, 1),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -34,18 +71,105 @@ class _CategoryState extends State<Category> {
                 Text(
                   "Few steps ago..",
                   style: GoogleFonts.josefinSans(
-                    color: Color.fromRGBO(237, 117, 127, 1),
+                    color: Colors.purple,
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
                     letterSpacing: 1,
                   ),
                 ),
-                Icon(Icons.favorite,
-                    size: 20, color: Color.fromRGBO(237, 117, 127, 1))
+                Icon(Icons.favorite, size: 20, color: Colors.purple)
               ],
             ),
             SizedBox(
               height: 50,
+            ),
+            CircleAvatar(
+              radius: 80,
+              backgroundColor: Colors.grey,
+              backgroundImage: image == null
+                  ? NetworkImage(
+                      'https://media.tarkett-image.com/large/TH_26500003_001.jpg')
+                  : FileImage(File(image.path)),
+              child: IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        constraints: BoxConstraints(maxHeight: 200),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Container(
+                              child: Text('Choose a profile picture',
+                                  style: GoogleFonts.josefinSans(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Container(
+                              child: Row(children: [
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      gallery();
+                                    },
+                                    icon: Icon(
+                                      EvaIcons.image,
+                                      size: 15,
+                                      color: Colors.purple,
+                                    )),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'From gallery',
+                                  style: GoogleFonts.josefinSans(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  width: 100,
+                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      camera();
+                                    },
+                                    icon: Icon(
+                                      FontAwesomeIcons.camera,
+                                      color: Colors.purple,
+                                      size: 15,
+                                    )),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'Take a photo',
+                                  style: GoogleFonts.josefinSans(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ]),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+                icon: Icon(
+                  EvaIcons.camera,
+                  color: Colors.grey,
+                  size: 40,
+                ),
+              ),
             ),
             Container(
               child: Padding(
@@ -74,10 +198,11 @@ class _CategoryState extends State<Category> {
                   children: [
                     CircleAvatar(
                         radius: 30,
-                        backgroundColor: Color.fromRGBO(2237, 117, 127, 1),
+                        backgroundColor: Colors.purple[200],
                         child: IconButton(
                           icon: Icon(
                             Icons.female,
+                            color: Colors.white,
                             size: 30,
                           ),
                           onPressed: () {
@@ -90,7 +215,7 @@ class _CategoryState extends State<Category> {
                     Text(
                       'Female',
                       style: GoogleFonts.josefinSans(
-                          color: Colors.white12,
+                          color: Colors.grey,
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                           letterSpacing: 1),
@@ -101,10 +226,11 @@ class _CategoryState extends State<Category> {
                   children: [
                     CircleAvatar(
                         radius: 30,
-                        backgroundColor: Color.fromRGBO(2237, 117, 127, 1),
+                        backgroundColor: Colors.purple[200],
                         child: IconButton(
                           icon: Icon(
                             Icons.male,
+                            color: Colors.white,
                             size: 30,
                           ),
                           onPressed: () {
@@ -117,7 +243,7 @@ class _CategoryState extends State<Category> {
                     Text(
                       'Male',
                       style: GoogleFonts.josefinSans(
-                          color: Colors.white12,
+                          color: Colors.grey,
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                           letterSpacing: 1),
@@ -128,10 +254,11 @@ class _CategoryState extends State<Category> {
                   children: [
                     CircleAvatar(
                         radius: 30,
-                        backgroundColor: Color.fromRGBO(2237, 117, 127, 1),
+                        backgroundColor: Colors.purple[200],
                         child: IconButton(
                           icon: Icon(
                             Icons.transgender,
+                            color: Colors.white,
                             size: 30,
                           ),
                           onPressed: () {
@@ -144,7 +271,7 @@ class _CategoryState extends State<Category> {
                     Text(
                       'Transgender',
                       style: GoogleFonts.josefinSans(
-                          color: Colors.white12,
+                          color: Colors.grey,
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                           letterSpacing: 1),
@@ -173,7 +300,7 @@ class _CategoryState extends State<Category> {
               ],
             ),
             SizedBox(
-              height: 50,
+              height: 20,
             ),
             Container(
               // height: 2,
@@ -181,17 +308,96 @@ class _CategoryState extends State<Category> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 150.0, right: 150),
                 child: TextField(
-                  style: GoogleFonts.josefinSans(color: Colors.white),
+                  style: GoogleFonts.josefinSans(color: Colors.black),
                   controller: agecontroller,
-                  cursorColor: Color.fromRGBO(237, 117, 127, 1),
+                  cursorColor: Colors.purple,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: Colors.white,
+                        color: Colors.purple,
                       ),
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: BorderSide(color: Colors.purple),
+                    ),
+                    hintText: ' ',
+                  ),
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Text(
+                    'About',
+                    style: GoogleFonts.josefinSans(
+                      color: Colors.grey,
+                      letterSpacing: 1,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              // height: 2,
+              // width: 100,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 30.0, right: 30),
+                child: TextField(
+                  style: GoogleFonts.josefinSans(color: Colors.black),
+                  controller: aboutcontroller,
+                  cursorColor: Colors.purple,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.purple,
+                      ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.purple),
+                    ),
+                    hintText: ' ',
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 50),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Text(
+                    'Enter your Country',
+                    style: GoogleFonts.josefinSans(
+                      color: Colors.grey,
+                      letterSpacing: 1,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              // height: 2,
+              // width: 100,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 150.0, right: 150),
+                child: TextField(
+                  style: GoogleFonts.josefinSans(color: Colors.black),
+                  controller: locationcontroller,
+                  cursorColor: Colors.purple,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.purple,
+                      ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.purple),
                     ),
                     hintText: ' ',
                   ),
@@ -233,17 +439,16 @@ class _CategoryState extends State<Category> {
                     height: 30,
                     width: 60,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
                           color: category.contains('Coding')
-                              ? Colors.red
-                              : Colors.white,
-                        ),
-                        color: Color.fromRGBO(9, 21, 27, 1)),
+                              ? Colors.purple
+                              : Colors.black),
+                    ),
                     child: Center(
                       child: Text(
                         'Coding',
-                        style: GoogleFonts.josefinSans(color: Colors.white),
+                        style: GoogleFonts.josefinSans(color: Colors.black),
                       ),
                     ),
                   ),
@@ -263,17 +468,17 @@ class _CategoryState extends State<Category> {
                     height: 30,
                     width: 60,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: category.contains('Animie')
-                              ? Colors.red
-                              : Colors.white,
-                        ),
-                        color: Color.fromRGBO(9, 21, 27, 1)),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: category.contains('Animie')
+                            ? Colors.purple
+                            : Colors.black,
+                      ),
+                    ),
                     child: Center(
                       child: Text(
                         'Animie',
-                        style: GoogleFonts.josefinSans(color: Colors.white),
+                        style: GoogleFonts.josefinSans(color: Colors.black),
                       ),
                     ),
                   ),
@@ -293,17 +498,17 @@ class _CategoryState extends State<Category> {
                     height: 30,
                     width: 60,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: category.contains('Film')
-                              ? Colors.red
-                              : Colors.white,
-                        ),
-                        color: Color.fromRGBO(9, 21, 27, 1)),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: category.contains('Film')
+                            ? Colors.purple
+                            : Colors.black,
+                      ),
+                    ),
                     child: Center(
                       child: Text(
                         'Film',
-                        style: GoogleFonts.josefinSans(color: Colors.white),
+                        style: GoogleFonts.josefinSans(color: Colors.black),
                       ),
                     ),
                   ),
@@ -323,17 +528,17 @@ class _CategoryState extends State<Category> {
                     height: 30,
                     width: 60,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: category.contains('Naturo')
-                              ? Colors.red
-                              : Colors.white,
-                        ),
-                        color: Color.fromRGBO(9, 21, 27, 1)),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: category.contains('Naturo')
+                            ? Colors.purple
+                            : Colors.black,
+                      ),
+                    ),
                     child: Center(
                       child: Text(
                         'Naturo',
-                        style: GoogleFonts.josefinSans(color: Colors.white),
+                        style: GoogleFonts.josefinSans(color: Colors.black),
                       ),
                     ),
                   ),
@@ -353,17 +558,17 @@ class _CategoryState extends State<Category> {
                     height: 30,
                     width: 60,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: category.contains('Sports')
-                              ? Colors.red
-                              : Colors.white,
-                        ),
-                        color: Color.fromRGBO(9, 21, 27, 1)),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: category.contains('Sports')
+                            ? Colors.purple
+                            : Colors.black,
+                      ),
+                    ),
                     child: Center(
                       child: Text(
                         'Sports',
-                        style: GoogleFonts.josefinSans(color: Colors.white),
+                        style: GoogleFonts.josefinSans(color: Colors.black),
                       ),
                     ),
                   ),
@@ -391,17 +596,17 @@ class _CategoryState extends State<Category> {
                     height: 30,
                     width: 60,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: category.contains('Travel')
-                              ? Colors.red
-                              : Colors.white,
-                        ),
-                        color: Color.fromRGBO(9, 21, 27, 1)),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: category.contains('Travel')
+                            ? Colors.purple
+                            : Colors.black,
+                      ),
+                    ),
                     child: Center(
                       child: Text(
                         'Travel',
-                        style: GoogleFonts.josefinSans(color: Colors.white),
+                        style: GoogleFonts.josefinSans(color: Colors.black),
                       ),
                     ),
                   ),
@@ -421,17 +626,17 @@ class _CategoryState extends State<Category> {
                     height: 30,
                     width: 60,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: category.contains('Art')
-                              ? Colors.red
-                              : Colors.white,
-                        ),
-                        color: Color.fromRGBO(9, 21, 27, 1)),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: category.contains('Art')
+                            ? Colors.purple
+                            : Colors.black,
+                      ),
+                    ),
                     child: Center(
                       child: Text(
                         'Art',
-                        style: GoogleFonts.josefinSans(color: Colors.white),
+                        style: GoogleFonts.josefinSans(color: Colors.black),
                       ),
                     ),
                   ),
@@ -451,17 +656,17 @@ class _CategoryState extends State<Category> {
                     height: 30,
                     width: 60,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: category.contains('Science')
-                              ? Colors.red
-                              : Colors.white,
-                        ),
-                        color: Color.fromRGBO(9, 21, 27, 1)),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: category.contains('Science')
+                            ? Colors.purple
+                            : Colors.black,
+                      ),
+                    ),
                     child: Center(
                       child: Text(
                         'Science',
-                        style: GoogleFonts.josefinSans(color: Colors.white),
+                        style: GoogleFonts.josefinSans(color: Colors.black),
                       ),
                     ),
                   ),
@@ -481,17 +686,17 @@ class _CategoryState extends State<Category> {
                     height: 30,
                     width: 60,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: category.contains('Books')
-                              ? Colors.red
-                              : Colors.white,
-                        ),
-                        color: Color.fromRGBO(9, 21, 27, 1)),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: category.contains('Books')
+                            ? Colors.purple
+                            : Colors.black,
+                      ),
+                    ),
                     child: Center(
                       child: Text(
                         'Books',
-                        style: GoogleFonts.josefinSans(color: Colors.white),
+                        style: GoogleFonts.josefinSans(color: Colors.black),
                       ),
                     ),
                   ),
@@ -511,17 +716,17 @@ class _CategoryState extends State<Category> {
                     height: 30,
                     width: 60,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: category.contains('Mystery')
-                              ? Colors.red
-                              : Colors.white,
-                        ),
-                        color: Color.fromRGBO(9, 21, 27, 1)),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: category.contains('Mystery')
+                            ? Colors.purple
+                            : Colors.black,
+                      ),
+                    ),
                     child: Center(
                       child: Text(
                         'Mystery',
-                        style: GoogleFonts.josefinSans(color: Colors.white),
+                        style: GoogleFonts.josefinSans(color: Colors.black),
                       ),
                     ),
                   ),
@@ -551,17 +756,17 @@ class _CategoryState extends State<Category> {
                         height: 30,
                         width: 60,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: category.contains('Music')
-                                  ? Colors.red
-                                  : Colors.white,
-                            ),
-                            color: Color.fromRGBO(9, 21, 27, 1)),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: category.contains('Music')
+                                ? Colors.purple
+                                : Colors.black,
+                          ),
+                        ),
                         child: Center(
                           child: Text(
                             'Music',
-                            style: GoogleFonts.josefinSans(color: Colors.white),
+                            style: GoogleFonts.josefinSans(color: Colors.black),
                           ),
                         ),
                       ),
@@ -582,17 +787,17 @@ class _CategoryState extends State<Category> {
                       height: 30,
                       width: 60,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: category.contains('Fashion')
-                                ? Colors.red
-                                : Colors.white,
-                          ),
-                          color: Color.fromRGBO(9, 21, 27, 1)),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: category.contains('Fashion')
+                              ? Colors.purple
+                              : Colors.black,
+                        ),
+                      ),
                       child: Center(
                         child: Text(
                           'Fashion',
-                          style: GoogleFonts.josefinSans(color: Colors.white),
+                          style: GoogleFonts.josefinSans(color: Colors.black),
                         ),
                       ),
                     ),
@@ -613,17 +818,17 @@ class _CategoryState extends State<Category> {
                         height: 30,
                         width: 60,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: category.contains('Act')
-                                  ? Colors.red
-                                  : Colors.white,
-                            ),
-                            color: Color.fromRGBO(9, 21, 27, 1)),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: category.contains('Act')
+                                ? Colors.purple
+                                : Colors.black,
+                          ),
+                        ),
                         child: Center(
                           child: Text(
                             'Act',
-                            style: GoogleFonts.josefinSans(color: Colors.white),
+                            style: GoogleFonts.josefinSans(color: Colors.black),
                           ),
                         ),
                       ),
@@ -634,46 +839,58 @@ class _CategoryState extends State<Category> {
               padding: const EdgeInsets.only(top: 50.0),
               child: GestureDetector(
                 onTap: () {
-                  agecontroller.text.isEmpty
+                  agecontroller.text.isEmpty &&
+                          aboutcontroller.text.isEmpty &&
+                          locationcontroller.text.isEmpty
                       ? Toast.show(
-                          'Please fill your respective age',
+                          'Please fill the respective items',
                           context,
-                          backgroundColor: Color.fromRGBO(220, 68, 82, 1),
+                          backgroundColor: Colors.purple,
                           duration: Toast.LENGTH_SHORT,
                           gravity: Toast.BOTTOM,
                         )
-                      : FirebaseFirestore.instance
-                          .collection('Users')
-                          .doc(Meetup.sharedPreferences.getString("uid"))
-                          .collection('Category')
-                          .add({
-                          'age': agecontroller.text.toString(),
-                          'intrest': category,
-                          'gender': gender,
-                        }).whenComplete(() {
-                          Navigator.pushReplacement(
-                              context,
-                              PageTransition(
-                                  child: SubCategory(
-                                    intrest: category,
-                                  ),
-                                  type: PageTransitionType.rightToLeft));
+                      : uploadimage().then((url) {
+                          FirebaseFirestore.instance
+                              .collection('Category')
+                              .doc(Meetup.sharedPreferences.getString("uid"))
+                              .set({
+                            'location': locationcontroller.text,
+                            'about': aboutcontroller.text,
+                            'username':
+                                Meetup.sharedPreferences.getString("username"),
+                            'imageurl': url,
+                            'age': agecontroller.text,
+                            'intrest': category,
+                            'gender': gender,
+                          }).whenComplete(() {
+                            Navigator.pushReplacement(
+                                context,
+                                PageTransition(
+                                    child: SubCategory(
+                                      intrest: category,
+                                    ),
+                                    type: PageTransitionType.rightToLeft));
+                          });
                         });
                 },
-                child: Container(
-                  height: 60,
-                  width: 200,
-                  decoration: BoxDecoration(
-                      color: Color.fromRGBO(2237, 117, 127, 1),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Center(
-                    child: Text(
-                      'Next',
-                      style: GoogleFonts.josefinSans(
-                          color: Colors.white,
-                          fontSize: 20,
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.bold),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: Container(
+                    height: 60,
+                    width: 200,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: <Color>[Colors.purple, Colors.pinkAccent]),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Center(
+                      child: Text(
+                        'Next',
+                        style: GoogleFonts.josefinSans(
+                            color: Colors.white,
+                            fontSize: 20,
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),

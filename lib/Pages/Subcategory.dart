@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meet_ups/Pages/HomeScreen.dart';
@@ -34,23 +33,25 @@ class _SubCategoryState extends State<SubCategory> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           FirebaseFirestore.instance
-              .collection('Users')
+              .collection('Category')
               .doc(Meetup.sharedPreferences.getString("uid"))
               .collection('Sub')
               .add({'sub': subcategory}).whenComplete(() {
             Navigator.pushReplacement(
                 context,
                 PageTransition(
-                    child: HomeScreen(), type: PageTransitionType.fade));
+                    child: HomeScreen(
+                    
+                    ), type: PageTransitionType.fade));
           });
         },
         child: const Icon(Icons.arrow_forward_outlined),
-        backgroundColor: Color.fromRGBO(220, 68, 82, 1),
+        backgroundColor: Colors.purple[300],
       ),
-      backgroundColor: Color.fromRGBO(9, 21, 27, 1),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(2237, 117, 127, 1),
+        backgroundColor: Colors.purple[200],
         title: Text(
           'Sub Category',
           style: GoogleFonts.josefinSans(
@@ -66,25 +67,17 @@ class _SubCategoryState extends State<SubCategory> {
               return Column(
                   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    // Container(
-                    //   child:Text('Select your options',style: GoogleFonts.josefinSans(
-                    //     color:Colors.white,
-                    //     letterSpacing:1,
-                    //     fontWeight:FontWeight.bold
-
-                    //   ),)
-                    // ),
                     GestureDetector(
                       onTap: () {},
                       child: Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(color: Colors.grey[800]),
+                        decoration: BoxDecoration(color: Colors.grey[100]),
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20.0, top: 20),
                           child: Text(widget.intrest[index],
                               style: GoogleFonts.josefinSans(
-                                color: Color.fromRGBO(227, 127, 117, 1),
+                                color: Colors.purple,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               )),
@@ -108,7 +101,7 @@ class _SubCategoryState extends State<SubCategory> {
                               return Center(
                                 child: CircularProgressIndicator(
                                   valueColor: new AlwaysStoppedAnimation<Color>(
-                                      Color.fromRGBO(2237, 117, 127, 1)),
+                                      Colors.purple),
                                 ),
                               );
                             } else {
@@ -140,27 +133,24 @@ class _SubCategoryState extends State<SubCategory> {
                                               height: 30,
                                               width: 70,
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                      color: subcategory
-                                                              .contains(snapshot
-                                                                          .data
-                                                                          .docs[
-                                                                      index]
-                                                                  ['name'])
-                                                          ? Colors.red
-                                                          : Colors.white
-                                                      // is_selected?Colors.red:Colors.white,
-                                                      ),
-                                                  color: Color.fromRGBO(
-                                                      9, 21, 27, 1)),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: subcategory.contains(
+                                                            snapshot.data
+                                                                    .docs[index]
+                                                                ['name'])
+                                                        ? Colors.purple
+                                                        : Colors.black
+                                                    // is_selected?Colors.red:Colors.white,
+                                                    ),
+                                              ),
                                               child: Center(
                                                   child: Text(
                                                 snapshot.data.docs[index]
                                                     ['name'],
                                                 style: GoogleFonts.josefinSans(
-                                                    color: Colors.white),
+                                                    color: Colors.black),
                                               )),
                                             ),
                                           ),
@@ -174,23 +164,6 @@ class _SubCategoryState extends State<SubCategory> {
                           }),
                     ),
                   ]);
-              // Container(
-              //     height: 60,
-              //     width: 100,
-              //     decoration: BoxDecoration(
-              //       color: Color.fromRGBO(2237, 117, 127, 1),
-              //       borderRadius: BorderRadius.circular(10),
-              //     ),
-              //     child: Center(
-              //       child: Text(
-              //         'Next',
-              //         style: GoogleFonts.josefinSans(
-              //             color: Colors.white,
-              //             letterSpacing: 1,
-              //             fontWeight: FontWeight.bold),
-              //       ),
-              //     ),
-              //   );
             }),
       ),
     );
