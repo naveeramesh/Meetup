@@ -12,7 +12,7 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-String userid = Meetup.sharedPreferences.getString("email");
+String userid = Meetup.sharedPreferences.getString("uid");
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
@@ -95,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Navigator.pushReplacement(
                       context,
                       PageTransition(
-                          child:Signin(),
+                          child: userid == null ? Signin() : HomeScreen(),
                           type: PageTransitionType.fade));
                 },
                 child: Container(

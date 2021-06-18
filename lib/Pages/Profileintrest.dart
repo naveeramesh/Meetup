@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/rendering.dart';
+import 'package:meet_ups/Pages/ageabout.dart';
 import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -14,7 +15,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:toast/toast.dart';
 
 class Category extends StatefulWidget {
-  const Category({Key key}) : super(key: key);
+  final String gender;
+  const Category({Key key,this.gender}) : super(key: key);
 
   @override
   _CategoryState createState() => _CategoryState();
@@ -22,7 +24,7 @@ class Category extends StatefulWidget {
 
 class _CategoryState extends State<Category> {
   List category = [];
-  String gender;
+
   // String uploadUrl;
 
   TextEditingController agecontroller = TextEditingController();
@@ -59,6 +61,13 @@ class _CategoryState extends State<Category> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushReplacement(context, PageTransition(child:About(), type: PageTransitionType.leftToRight));
+        },
+        backgroundColor: Colors.purple,
+        child: Icon(Icons.arrow_forward),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -66,10 +75,12 @@ class _CategoryState extends State<Category> {
               height: 60,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(
+                  width: 20,
+                ),
                 Text(
-                  "Few steps ago..",
+                  "Hello " + Meetup.sharedPreferences.getString('username'),
                   style: GoogleFonts.josefinSans(
                     color: Colors.purple,
                     fontWeight: FontWeight.bold,
@@ -77,7 +88,6 @@ class _CategoryState extends State<Category> {
                     letterSpacing: 1,
                   ),
                 ),
-                Icon(Icons.favorite, size: 20, color: Colors.purple)
               ],
             ),
             SizedBox(
@@ -171,160 +181,8 @@ class _CategoryState extends State<Category> {
                 ),
               ),
             ),
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Row(
-                  children: [
-                    Text(
-                      "Choose gender",
-                      style: GoogleFonts.josefinSans(
-                        color: Colors.grey,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  children: [
-                    CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Colors.purple[200],
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.female,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                          onPressed: () {
-                            gender = 'Female';
-                          },
-                        )),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Female',
-                      style: GoogleFonts.josefinSans(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          letterSpacing: 1),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Colors.purple[200],
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.male,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                          onPressed: () {
-                            gender = 'Male';
-                          },
-                        )),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Male',
-                      style: GoogleFonts.josefinSans(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          letterSpacing: 1),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Colors.purple[200],
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.transgender,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                          onPressed: () {
-                            gender = 'Transgender';
-                          },
-                        )),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Transgender',
-                      style: GoogleFonts.josefinSans(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          letterSpacing: 1),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: Text(
-                    'Enter age',
-                    style: GoogleFonts.josefinSans(
-                      color: Colors.grey,
-                      letterSpacing: 1,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              // height: 2,
-              // width: 100,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 150.0, right: 150),
-                child: TextField(
-                  style: GoogleFonts.josefinSans(color: Colors.black),
-                  controller: agecontroller,
-                  cursorColor: Colors.purple,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.purple,
-                      ),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.purple),
-                    ),
-                    hintText: ' ',
-                  ),
-                ),
-              ),
-            ),
+          
+            
             Row(
               children: [
                 Padding(
@@ -861,7 +719,7 @@ class _CategoryState extends State<Category> {
                             'imageurl': url,
                             'age': agecontroller.text,
                             'intrest': category,
-                            'gender': gender,
+                            'gender': widget.gender,
                           }).whenComplete(() {
                             Navigator.pushReplacement(
                                 context,

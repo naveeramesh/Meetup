@@ -42,8 +42,9 @@ class _ChatuserdisplayState extends State<Chatuserdisplay> {
         child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection('ChatRoom')
-                .where('messagedby',
-                    isEqualTo: Meetup.sharedPreferences.getString('username'))
+                .where('users',
+                    arrayContains:
+                        Meetup.sharedPreferences.getString('username'))
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -87,8 +88,13 @@ class _ChatuserdisplayState extends State<Chatuserdisplay> {
                             SizedBox(
                               width: 20,
                             ),
+
                             Text(
                               snapshot.data.docs[index]['users'][1],
+                              // Meetup.sharedPreferences.getString('username') ==
+                              //         snapshot.data.docs[index]['users'][1]
+                              //     ? snapshot.data.docs[index]['users'][0]
+                              //     : snapshot.data.docs[index]['users'][1],
                               style: GoogleFonts.josefinSans(
                                   color: Colors.purple,
                                   fontSize: 20,

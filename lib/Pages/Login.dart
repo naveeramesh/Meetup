@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meet_ups/Error/LoadingErrorDialog.dart';
-import 'package:meet_ups/Pages/Category.dart';
+import 'package:meet_ups/Pages/Profileintrest.dart';
 import 'package:meet_ups/Pages/HomeScreen.dart';
 import 'package:meet_ups/Pages/Signin.dart';
 import 'package:meet_ups/Services/Sharedpreferences.dart';

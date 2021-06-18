@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meet_ups/Pages/HomeScreen.dart';
+import 'package:meet_ups/Pages/SplashScreen.dart';
 import 'package:meet_ups/Services/Sharedpreferences.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -13,32 +15,57 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+    await Meetup.sharedPreferences.clear().whenComplete(() {
+      Navigator.pushReplacement(context,
+          PageTransition(child: SplashScreen(), type: PageTransitionType.fade));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        Navigator.push(context, PageTransition(child: HomeScreen(), type: PageTransitionType.fade));
-      },
-      child: Icon(Icons.arrow_back),
-        backgroundColor: Colors.purple,),
-      appBar:new PreferredSize(
-          preferredSize: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
-            child: Container(
-          decoration: BoxDecoration(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              PageTransition(
+                  child: HomeScreen(), type: PageTransitionType.fade));
+        },
+        child: Icon(Icons.arrow_back),
+        backgroundColor: Colors.purple,
+      ),
+      appBar: new PreferredSize(
+          preferredSize: Size(MediaQuery.of(context).size.width,
+              MediaQuery.of(context).size.height),
+          child: Container(
+            decoration: BoxDecoration(
               gradient:
                   LinearGradient(colors: <Color>[Colors.purple, Colors.pink]),
-                  ),
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 30, top: 20, bottom: 20),
-            child: Text(
-              'Account Settings',
-              style: GoogleFonts.josefinSans(
-                fontWeight: FontWeight.bold,
-                color: Colors.white, fontSize: 20),
             ),
-          ),
-        )),
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 30, top: 20, bottom: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Account Settings',
+                    style: GoogleFonts.josefinSans(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        _signOut();
+                      },
+                      icon: Icon(Icons.logout, color: Colors.white))
+                ],
+              ),
+            ),
+          )),
       backgroundColor: Colors.white,
       body: Container(
           child: StreamBuilder(

@@ -21,9 +21,11 @@ class _ChatRoomState extends State<ChatRoom> {
   String chatroom_id;
   TextEditingController messagecontroller = TextEditingController();
   String name;
+
   @override
   void initState() {
     // TODO: implement initState
+    
     name = widget.info;
     userid = Meetup.sharedPreferences.getString('username').toLowerCase() +
         "_" +
@@ -188,14 +190,14 @@ class _ChatRoomState extends State<ChatRoom> {
                             ? Toast.show('Write a msg to send', context,
                                 duration: Toast.LENGTH_LONG,
                                 backgroundColor: Colors.purple,
-                                 gravity: Toast.BOTTOM,
+                                gravity: Toast.BOTTOM,
                                 textColor: Colors.white)
                             : FirebaseFirestore.instance
                                 .collection('ChatRoom')
                                 .doc(chatroom_id)
                                 .set({
-                                'messagedby': Meetup.sharedPreferences
-                                    .getString('username'),
+                                // 'messagedby': Meetup.sharedPreferences
+                                //     .getString('username'),
                                 'users': [
                                   Meetup.sharedPreferences
                                       .getString('username'),

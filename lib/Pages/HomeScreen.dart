@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:meet_ups/Pages/Account.dart';
 import 'package:meet_ups/Pages/ChatUserDisplay.dart';
 import 'package:meet_ups/Pages/Info.dart';
+import 'package:meet_ups/Pages/Notifications.dart';
 import 'package:meet_ups/Services/Sharedpreferences.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:toast/toast.dart';
@@ -118,7 +119,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         Icons.notifications_active_rounded,
                         color: Colors.white,
                       ),
-                      onPressed: () {}),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: Notifications(),
+                                type: PageTransitionType.leftToRight));
+                      }),
                   IconButton(
                       onPressed: () {
                         Navigator.push(
@@ -251,20 +258,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         FirebaseFirestore
                                                             .instance
                                                             .collection(
-                                                                'Category')
-                                                            .doc(snapshot.data
-                                                                    .docs[index]
-                                                                ['uid'])
-                                                            .collection(
                                                                 'Likedby')
-                                                            .doc(snapshot.data
-                                                                    .docs[index]
-                                                                ['username'])
+                                                            .doc(Meetup
+                                                                .sharedPreferences
+                                                                .getString(
+                                                                    'username'))
                                                             .set({
-                                                          'username': Meetup
+                                                          'name': Meetup
                                                               .sharedPreferences
                                                               .getString(
                                                                   'username'),
+                                                          'liked': snapshot.data
+                                                                  .docs[index]
+                                                              ['username']
+                                                        }).whenComplete(() {
+                                                          Toast.show('Liked ❤',
+                                                              context,
+                                                              duration: Toast
+                                                                  .LENGTH_SHORT,
+                                                              gravity:
+                                                                  Toast.BOTTOM);
                                                         });
                                                       },
                                                       icon: Icon(
