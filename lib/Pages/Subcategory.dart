@@ -30,6 +30,31 @@ class _SubCategoryState extends State<SubCategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: new PreferredSize(
+          preferredSize: Size(MediaQuery.of(context).size.width,
+              MediaQuery.of(context).size.height),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient:
+                  LinearGradient(colors: <Color>[Colors.purple, Colors.pink]),
+            ),
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 30, top: 20, bottom: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Sub Category',
+                    style: GoogleFonts.josefinSans(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20),
+                  ),
+                ],
+              ),
+            ),
+          )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           FirebaseFirestore.instance
@@ -40,26 +65,13 @@ class _SubCategoryState extends State<SubCategory> {
             Navigator.pushReplacement(
                 context,
                 PageTransition(
-                    child: HomeScreen(
-                    
-                    ), type: PageTransitionType.fade));
+                    child: HomeScreen(), type: PageTransitionType.fade));
           });
         },
         child: const Icon(Icons.arrow_forward_outlined),
-        backgroundColor: Colors.purple[300],
+        backgroundColor: Colors.purple,
       ),
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.purple[200],
-        title: Text(
-          'Sub Category',
-          style: GoogleFonts.josefinSans(
-              color: Colors.white,
-              letterSpacing: 1,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
       body: Container(
         child: ListView.builder(
             itemCount: widget.intrest.length,

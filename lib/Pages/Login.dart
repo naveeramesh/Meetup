@@ -226,8 +226,7 @@ class _LoginState extends State<Login> {
                       },
                       child: Text('New User ? Create account',
                           style: GoogleFonts.josefinSans(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey)),
+                              fontWeight: FontWeight.bold, color: Colors.grey)),
                     ),
                   ],
                 ),

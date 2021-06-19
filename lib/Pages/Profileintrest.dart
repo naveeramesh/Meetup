@@ -15,8 +15,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:toast/toast.dart';
 
 class Category extends StatefulWidget {
-  final String gender;
-  const Category({Key key,this.gender}) : super(key: key);
+  final String gender, age;
+  const Category({Key key, this.gender, this.age}) : super(key: key);
 
   @override
   _CategoryState createState() => _CategoryState();
@@ -27,7 +27,6 @@ class _CategoryState extends State<Category> {
 
   // String uploadUrl;
 
-  TextEditingController agecontroller = TextEditingController();
   TextEditingController aboutcontroller = TextEditingController();
   TextEditingController locationcontroller = TextEditingController();
   PickedFile image;
@@ -61,13 +60,6 @@ class _CategoryState extends State<Category> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacement(context, PageTransition(child:About(), type: PageTransitionType.leftToRight));
-        },
-        backgroundColor: Colors.purple,
-        child: Icon(Icons.arrow_forward),
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -79,20 +71,37 @@ class _CategoryState extends State<Category> {
                 SizedBox(
                   width: 20,
                 ),
-                Text(
-                  "Hello " + Meetup.sharedPreferences.getString('username'),
-                  style: GoogleFonts.josefinSans(
-                    color: Colors.purple,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                    letterSpacing: 1,
-                  ),
+                Column(
+                  children: [
+                    Text(
+                      "Hello " + Meetup.sharedPreferences.getString('username'),
+                      style: GoogleFonts.josefinSans(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                     SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 3,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: <Color>[
+                        Colors.purple,
+                        Colors.pinkAccent
+                      ])),
+                    ),
+                  ],
                 ),
               ],
             ),
             SizedBox(
               height: 50,
             ),
+            
             CircleAvatar(
               radius: 80,
               backgroundColor: Colors.grey,
@@ -181,8 +190,6 @@ class _CategoryState extends State<Category> {
                 ),
               ),
             ),
-          
-            
             Row(
               children: [
                 Padding(
@@ -223,12 +230,12 @@ class _CategoryState extends State<Category> {
               ),
             ),
             SizedBox(height: 50),
-            Row(
+             Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
-                    'Enter your Country',
+                    'Location',
                     style: GoogleFonts.josefinSans(
                       color: Colors.grey,
                       letterSpacing: 1,
@@ -243,7 +250,7 @@ class _CategoryState extends State<Category> {
               // height: 2,
               // width: 100,
               child: Padding(
-                padding: const EdgeInsets.only(left: 150.0, right: 150),
+                padding: const EdgeInsets.only(left: 130.0, right: 130),
                 child: TextField(
                   style: GoogleFonts.josefinSans(color: Colors.black),
                   controller: locationcontroller,
@@ -262,7 +269,9 @@ class _CategoryState extends State<Category> {
                 ),
               ),
             ),
-            SizedBox(height: 50),
+            SizedBox(
+              height: 50,
+            ),
             Row(children: [
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
@@ -697,8 +706,7 @@ class _CategoryState extends State<Category> {
               padding: const EdgeInsets.only(top: 50.0),
               child: GestureDetector(
                 onTap: () {
-                  agecontroller.text.isEmpty &&
-                          aboutcontroller.text.isEmpty &&
+                  aboutcontroller.text.isEmpty &&
                           locationcontroller.text.isEmpty
                       ? Toast.show(
                           'Please fill the respective items',
@@ -717,7 +725,7 @@ class _CategoryState extends State<Category> {
                             'username':
                                 Meetup.sharedPreferences.getString("username"),
                             'imageurl': url,
-                            'age': agecontroller.text,
+                            'age': widget.age,
                             'intrest': category,
                             'gender': widget.gender,
                           }).whenComplete(() {
@@ -731,24 +739,21 @@ class _CategoryState extends State<Category> {
                           });
                         });
                 },
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: Container(
-                    height: 60,
-                    width: 200,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: <Color>[Colors.purple, Colors.pinkAccent]),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                      child: Text(
-                        'Next',
-                        style: GoogleFonts.josefinSans(
-                            color: Colors.white,
-                            fontSize: 20,
-                            letterSpacing: 1,
-                            fontWeight: FontWeight.bold),
-                      ),
+                child: Container(
+                  height: 60,
+                  width: 200,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: <Color>[Colors.purple, Colors.pinkAccent]),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Center(
+                    child: Text(
+                      'Next',
+                      style: GoogleFonts.josefinSans(
+                          color: Colors.white,
+                          fontSize: 20,
+                          letterSpacing: 1,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

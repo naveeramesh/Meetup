@@ -19,13 +19,14 @@ class _ChatRoomState extends State<ChatRoom> {
   String userid;
   String getterid;
   String chatroom_id;
+
   TextEditingController messagecontroller = TextEditingController();
   String name;
 
   @override
   void initState() {
     // TODO: implement initState
-    
+
     name = widget.info;
     userid = Meetup.sharedPreferences.getString('username').toLowerCase() +
         "_" +
@@ -204,7 +205,11 @@ class _ChatRoomState extends State<ChatRoom> {
                                   name
                                 ],
                                 'chatroomid': chatroom_id,
-                                'imageurl': widget.image,
+                                'imageurl': [
+                                  Meetup.sharedPreferences
+                                      .getString('userimage'),
+                                  widget.image
+                                ]
                               });
                         FirebaseFirestore.instance
                             .collection('ChatRoom')

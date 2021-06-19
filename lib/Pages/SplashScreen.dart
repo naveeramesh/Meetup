@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meet_ups/Pages/HomeScreen.dart';
@@ -15,6 +16,7 @@ class SplashScreen extends StatefulWidget {
 String userid = Meetup.sharedPreferences.getString("uid");
 
 class _SplashScreenState extends State<SplashScreen> {
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(

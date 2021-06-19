@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meet_ups/Pages/Profileintrest.dart';
 import 'package:meet_ups/Services/Sharedpreferences.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:toast/toast.dart';
 
 class About extends StatefulWidget {
   const About({Key key}) : super(key: key);
@@ -16,6 +19,23 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.purple,
+        onPressed: () {
+          agecontroller.text.isEmpty
+              ? Toast.show('Please fill the respective age', context,
+                  duration: Toast.LENGTH_SHORT, backgroundColor: Colors.purple)
+              : Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                      child: Category(
+                        gender: gender,
+                        age: agecontroller.text,
+                      ),
+                      type: PageTransitionType.leftToRight));
+        },
+        child: Icon(Icons.arrow_forward),
+      ),
       body: Container(
         child: Column(
           children: [

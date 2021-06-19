@@ -65,10 +65,19 @@ class _ChatuserdisplayState extends State<Chatuserdisplay> {
                               context,
                               PageTransition(
                                   child: ChatRoom(
-                                    info: snapshot.data.docs[index]['users'][1],
-                                    image: snapshot.data.docs[index]
-                                        ['imageurl'],
-                                  ),
+                                      info: Meetup.sharedPreferences.getString('username') ==
+                                              snapshot.data.docs[index]['users']
+                                                  [1]
+                                          ? snapshot.data.docs[index]['users']
+                                              [0]
+                                          : snapshot.data.docs[index]['users']
+                                              [1],
+                                      image: Meetup.sharedPreferences
+                                                  .getString('userimage') ==
+                                              snapshot.data.docs[index]
+                                                  ['imageurl'][1]
+                                          ? snapshot.data.docs[index]['imageurl'][0]
+                                          : snapshot.data.docs[index]['imageurl'][1]),
                                   type: PageTransitionType.fade));
                         },
                         child: Container(
@@ -83,18 +92,22 @@ class _ChatuserdisplayState extends State<Chatuserdisplay> {
                             CircleAvatar(
                                 radius: 20,
                                 backgroundColor: Colors.grey,
-                                backgroundImage: NetworkImage(
-                                    snapshot.data.docs[index]['imageurl'])),
+                                backgroundImage: NetworkImage(Meetup
+                                            .sharedPreferences
+                                            .getString('userimage') ==
+                                        snapshot.data.docs[index]['imageurl'][1]
+                                    ? snapshot.data.docs[index]['imageurl'][0]
+                                    : snapshot.data.docs[index]['imageurl']
+                                        [1])),
                             SizedBox(
                               width: 20,
                             ),
-
                             Text(
-                              snapshot.data.docs[index]['users'][1],
-                              // Meetup.sharedPreferences.getString('username') ==
-                              //         snapshot.data.docs[index]['users'][1]
-                              //     ? snapshot.data.docs[index]['users'][0]
-                              //     : snapshot.data.docs[index]['users'][1],
+                              // snapshot.data.docs[index]['users'][1],
+                              Meetup.sharedPreferences.getString('username') ==
+                                      snapshot.data.docs[index]['users'][1]
+                                  ? snapshot.data.docs[index]['users'][0]
+                                  : snapshot.data.docs[index]['users'][1],
                               style: GoogleFonts.josefinSans(
                                   color: Colors.purple,
                                   fontSize: 20,

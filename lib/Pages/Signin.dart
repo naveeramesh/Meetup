@@ -2,12 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 import 'package:meet_ups/Error/AlertErrorDialog.dart';
-import 'package:meet_ups/Error/LoadingErrorDialog.dart';
-import 'package:meet_ups/Pages/Profileintrest.dart';
-import 'package:meet_ups/Pages/HomeScreen.dart';
 import 'package:meet_ups/Pages/Login.dart';
+import 'package:meet_ups/Pages/ageabout.dart';
 import 'package:meet_ups/Services/Sharedpreferences.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -49,7 +46,7 @@ class _SigninState extends State<Signin> {
       });
       if (firebaseUser != null) {
         uploaddata(firebaseUser).then((value) {
-          Route route = MaterialPageRoute(builder: (c) => Category());
+          Route route = MaterialPageRoute(builder: (c) => About());
           Navigator.pushReplacement(context, route);
         });
       }
@@ -68,6 +65,7 @@ class _SigninState extends State<Signin> {
         .setString("username", usernamecontroller.text.trim())
         .then((value) {
       print('Firebase set properly');
+      print(user.uid);
     });
   }
 
@@ -246,8 +244,7 @@ class _SigninState extends State<Signin> {
                       },
                       child: Text('Already an User ? Login',
                           style: GoogleFonts.josefinSans(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey)),
+                              fontWeight: FontWeight.bold, color: Colors.grey)),
                     ),
                   ],
                 ),
