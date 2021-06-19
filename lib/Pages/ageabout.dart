@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:meet_ups/Pages/Profileintrest.dart';
+import 'package:meet_ups/Pages/Intrest.dart';
+import 'package:meet_ups/Pages/Profile.dart';
 import 'package:meet_ups/Services/Sharedpreferences.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:toast/toast.dart';
@@ -28,7 +29,7 @@ class _AboutState extends State<About> {
               : Navigator.pushReplacement(
                   context,
                   PageTransition(
-                      child: Category(
+                      child: Intrest(
                         gender: gender,
                         age: agecontroller.text,
                       ),
@@ -36,7 +37,8 @@ class _AboutState extends State<About> {
         },
         child: Icon(Icons.arrow_forward),
       ),
-      body: Container(
+      body:
+       Container(
         child: Column(
           children: [
             SizedBox(
