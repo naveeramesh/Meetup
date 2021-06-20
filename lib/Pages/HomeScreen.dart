@@ -20,7 +20,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String userimage;
   List userintrest = [];
   int likes = 1;
   getintrest() async {
@@ -36,20 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    FirebaseFirestore.instance
-        .collection('Category')
-        .doc(Meetup.sharedPreferences.getString('uid'))
-        .get()
-        .then((value) {
-      print(value);
-      print(value.data()['imageurl']);
-
-      setState(() {
-        userimage = value.data()['imageurl'];
-        Meetup.sharedPreferences.setString("userimage", userimage);
-        print(userimage);
-      });
-    });
     print(Meetup.sharedPreferences.getString('uid'));
     // TODO: implement initState
     FirebaseFirestore.instance
@@ -285,15 +270,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             .instance
                                                             .collection(
                                                                 'Likedby')
-                                                            .doc(Meetup
-                                                                .sharedPreferences
-                                                                .getString(
-                                                                    'username'))
-                                                            .set({
+                                                            .add({
                                                           'name': Meetup
                                                               .sharedPreferences
                                                               .getString(
                                                                   'username'),
+                                                          'imageurloflikedperson':
+                                                              snapshot.data
+                                                                          .docs[
+                                                                      index]
+                                                                  ['imageurl'],
                                                           'liked': snapshot.data
                                                                   .docs[index]
                                                               ['username']

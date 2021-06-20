@@ -22,7 +22,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   TextEditingController messagecontroller = TextEditingController();
   String name;
-
+String userimage;
   @override
   void initState() {
     // TODO: implement initState
@@ -37,6 +37,20 @@ class _ChatRoomState extends State<ChatRoom> {
     readlocal();
 
     super.initState();
+    FirebaseFirestore.instance
+        .collection('Category')
+        .doc(Meetup.sharedPreferences.getString('uid'))
+        .get()
+        .then((value) {
+      print(value);
+      print(value.data()['imageurl']);
+
+      setState(() {
+        userimage = value.data()['imageurl'];
+        Meetup.sharedPreferences.setString("userimage", userimage);
+        print(userimage);
+      });
+    });
   }
 
   readlocal() async {
@@ -147,10 +161,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                                         .getString('username')
                                                 ? BorderRadius.only(
                                                     topLeft:
-                                                        Radius.circular(30))
+                                                        Radius.circular(10))
                                                 : BorderRadius.only(
                                                     topRight:
-                                                        Radius.circular(30)),
+                                                        Radius.circular(10)),
                                             color: snapshot.data.docs[index]
                                                         ['sendby'] ==
                                                     Meetup.sharedPreferences
@@ -180,10 +194,10 @@ class _ChatRoomState extends State<ChatRoom> {
               style: GoogleFonts.josefinSans(color: Colors.black),
               decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: Colors.black)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: Colors.black)),
                   suffixIcon: IconButton(
                       onPressed: () {
@@ -206,8 +220,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                 ],
                                 'chatroomid': chatroom_id,
                                 'imageurl': [
-                                  Meetup.sharedPreferences
-                                      .getString('userimage'),
+                                 userimage,
                                   widget.image
                                 ]
                               });

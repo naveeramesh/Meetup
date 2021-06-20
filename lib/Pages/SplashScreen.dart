@@ -97,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Navigator.pushReplacement(
                       context,
                       PageTransition(
-                          child: userid == null ? Signin() : HomeScreen(),
+                          child:Signin(),
                           type: PageTransitionType.fade));
                 },
                 child: Container(

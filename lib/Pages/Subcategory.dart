@@ -125,6 +125,15 @@ class _SubCategoryState extends State<SubCategory> {
                                     padding: const EdgeInsets.only(left: 20.0),
                                     child: GestureDetector(
                                       onTap: () {
+                                        FirebaseFirestore.instance
+                                            .collection('Category')
+                                            .doc(Meetup.sharedPreferences
+                                                .getString('uid'))
+                                            .collection('SubIntrestString')
+                                            .add({
+                                          'name': snapshot.data.docs[index]
+                                              ['name'],
+                                        });
                                         setState(() {
                                           subcategory.contains(snapshot
                                                   .data.docs[index]['name'])

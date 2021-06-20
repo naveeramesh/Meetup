@@ -61,14 +61,15 @@ class _LoginState extends State<Login> {
         .then((dataSnapshot) async {
       print(dataSnapshot.data()['uid']);
       print(dataSnapshot.data()['email']);
-      await Meetup.sharedPreferences
-          .setString('userimage', dataSnapshot.data()["userimage"]);
+      print(dataSnapshot.data()['userimage']);
       await Meetup.sharedPreferences
           .setString("username", dataSnapshot.data()["username"]);
       await Meetup.sharedPreferences
           .setString("uid", dataSnapshot.data()["uid"]);
       await Meetup.sharedPreferences
           .setString("email", dataSnapshot.data()["email"]);
+      // await Meetup.sharedPreferences
+      //     .setString('userimage', dataSnapshot.data()["userimage"]);
     });
   }
 

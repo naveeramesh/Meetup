@@ -56,6 +56,7 @@ class _CategoryState extends State<Category> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Container(
         child: Column(
@@ -314,6 +315,7 @@ class _CategoryState extends State<Category> {
                             'age': widget.age,
                             'intrest': widget.intrests,
                             'gender': widget.gender,
+                            'email':Meetup.sharedPreferences.getString("email")
                           }).whenComplete(() {
                             Navigator.pushReplacement(
                                 context,

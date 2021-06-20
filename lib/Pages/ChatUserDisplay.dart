@@ -75,9 +75,9 @@ class _ChatuserdisplayState extends State<Chatuserdisplay> {
                                       image: Meetup.sharedPreferences
                                                   .getString('userimage') ==
                                               snapshot.data.docs[index]
-                                                  ['imageurl'][1]
-                                          ? snapshot.data.docs[index]['imageurl'][0]
-                                          : snapshot.data.docs[index]['imageurl'][1]),
+                                                  ['imageurl'][0]
+                                          ? snapshot.data.docs[index]['imageurl'][1]
+                                          : snapshot.data.docs[index]['imageurl'][0]),
                                   type: PageTransitionType.fade));
                         },
                         child: Container(
@@ -95,10 +95,10 @@ class _ChatuserdisplayState extends State<Chatuserdisplay> {
                                 backgroundImage: NetworkImage(Meetup
                                             .sharedPreferences
                                             .getString('userimage') ==
-                                        snapshot.data.docs[index]['imageurl'][1]
-                                    ? snapshot.data.docs[index]['imageurl'][0]
+                                        snapshot.data.docs[index]['imageurl'][0]
+                                    ? snapshot.data.docs[index]['imageurl'][1]
                                     : snapshot.data.docs[index]['imageurl']
-                                        [1])),
+                                        [0])),
                             SizedBox(
                               width: 20,
                             ),
