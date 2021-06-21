@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meet_ups/Pages/Appinfo.dart';
+import 'package:meet_ups/Pages/Editprofile.dart';
 import 'package:meet_ups/Pages/HomeScreen.dart';
 import 'package:meet_ups/Pages/LikedPosts.dart';
 import 'package:meet_ups/Pages/SplashScreen.dart';
@@ -61,14 +62,16 @@ class _AccountState extends State<Account> {
       // ),
       backgroundColor: Colors.white,
       body: Container(
-        child: Column(
+        child: 
+        Column(
           children: [
             Container(
                 height: 180,
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         colors: <Color>[Colors.purple, Colors.pink])),
-                child: StreamBuilder(
+                child: 
+                StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('Category')
                       .where('username',
@@ -83,115 +86,114 @@ class _AccountState extends State<Account> {
                             Colors.purpleAccent),
                       ));
                     } else {
-                      return Container(
+                      return 
+                      Container(
                         child: ListView.builder(
-                            itemCount: snapshot.data.docs.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                height: 150,
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(colors: <Color>[
-                                  Colors.purple,
-                                  Colors.pink
-                                ])),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 20,
-                                      ),
-                                      child: CircleAvatar(
-                                          radius: 50,
-                                          backgroundColor: Colors.grey,
-                                          backgroundImage: NetworkImage(snapshot
-                                              .data.docs[index]['imageurl'])),
+                          itemCount: snapshot.data.docs.length,
+                          
+                          itemBuilder: (BuildContext context, int index) {
+                            return 
+                            Container(
+                              height: 150,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(colors: <Color>[
+                                Colors.purple,
+                                Colors.pink
+                              ])),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20,
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 50, left: 20.0),
-                                              child: Text(
-                                                snapshot.data
-                                                        .docs[index]['username']
-                                                        .toUpperCase() +
-                                                    " " +
-                                                    ',' +
-                                                    " " +
-                                                    snapshot.data.docs[index]
-                                                        ['age'],
-                                                style: GoogleFonts.josefinSans(
+                                    child: CircleAvatar(
+                                        radius: 50,
+                                        backgroundColor: Colors.grey,
+                                        backgroundImage: NetworkImage(snapshot
+                                            .data.docs[index]['imageurl'])),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 50, left: 20.0),
+                                            child: Text(
+                                              snapshot.data
+                                                      .docs[index]['username']
+                                                      .toUpperCase() +
+                                                  " " +
+                                                  ',' +
+                                                  " " +
+                                                  snapshot.data.docs[index]
+                                                      ['age'],
+                                              style: GoogleFonts.josefinSans(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 20.0),
+                                                child: Text(
+                                                  Meetup.sharedPreferences
+                                                      .getString('email')
+                                                      .toString(),
+                                                  style:
+                                                      GoogleFonts.josefinSans(
                                                     color: Colors.white,
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 20.0),
-                                                  child: Text(
-                                                    Meetup.sharedPreferences
-                                                        .getString('email')
-                                                        .toString(),
-                                                    style:
-                                                        GoogleFonts.josefinSans(
-                                                      color: Colors.white,
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 20.0),
+                                                child: Icon(
+                                                  Icons.location_on,
+                                                  color: Colors.white,
+                                                  size: 10,
                                                 ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 20.0),
-                                                  child: Icon(
-                                                    Icons.location_on,
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 5.0),
+                                                child: Text(
+                                                  snapshot.data.docs[index]
+                                                      ['location'],
+                                                  style:
+                                                      GoogleFonts.josefinSans(
                                                     color: Colors.white,
-                                                    size: 10,
+                                                    fontSize: 12,
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 5.0),
-                                                  child: Text(
-                                                    snapshot.data.docs[index]
-                                                        ['location'],
-                                                    style:
-                                                        GoogleFonts.josefinSans(
-                                                      color: Colors.white,
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       );
                     }
                   },
@@ -403,8 +405,31 @@ class _AccountState extends State<Account> {
                               color: Colors.black,
                               letterSpacing: 1),
                         )),
+                         ListTile(
+                        leading: Icon(Icons.edit, color: Colors.black),
+                        trailing: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      child: Editprofile(),
+                                      type: PageTransitionType.leftToRight));
+                            },
+                            icon: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Colors.black,
+                              size: 18,
+                            )),
+                        title: Text(
+                          'Edit Profile',
+                          style: GoogleFonts.josefinSans(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              letterSpacing: 1),
+                        )),
                     SizedBox(
-                      height: 200,
+                      height: 150,
                     ),
                     GestureDetector(
                       onTap: () {

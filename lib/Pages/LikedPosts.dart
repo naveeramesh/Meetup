@@ -62,7 +62,8 @@ class _LikedPostsState extends State<LikedPosts> {
                       child: ListView.builder(
                           itemCount: snapshot.data.docs.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Container(
+                            return 
+                            Container(
                               height: 60,
                               child: Row(
                                 children: [

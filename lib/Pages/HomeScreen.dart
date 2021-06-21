@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,22 +22,51 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List userintrest = [];
-  int likes = 1;
-  getintrest() async {
-    FirebaseFirestore.instance.collection('Category').get().then((value) {
-      value.docs.forEach((element) {
-        setState(() {
-          userintrest.add(element.data()['intrest']);
-          print(userintrest);
-        });
-      });
-    });
-  }
+  int likes = 0;
+  int chats = 0;
+  String imageofuser;
+  // getintrest() async {
+  //   FirebaseFirestore.instance.collection('Category').get().then((value) {
+  //     value.docs.forEach((element) {
+  //       setState(() {
+  //         userintrest.add(element.data()['intrest']);
+  //         print(userintrest);
+  //       });
+  //     });
+  //   });
+  // }
 
   @override
   void initState() {
-    print(Meetup.sharedPreferences.getString('uid'));
+    // print(Meetup.sharedPreferences.getString('uid'));
+    var firebaseUser=FirebaseAuth.instance.currentUser;
     // TODO: implement initState
+     FirebaseFirestore.instance
+        .collection('Category')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((value) {
+      print(value.data());
+      print(value.data()['imageurl']);
+
+      setState(() {
+        imageofuser = value.data()['imageurl'];
+        // Meetup.sharedPreferences.setString("userimage", imageofuser);
+        // print(imageofuser);
+      });
+    });
+
+    FirebaseFirestore.instance
+        .collection('ChatRoom')
+        .where('sendby',
+            isEqualTo: Meetup.sharedPreferences.getString('username'))
+        .get()
+        .then((value) {
+      setState(() {
+        chats = value.docs.length;
+      });
+    });
+
     FirebaseFirestore.instance
         .collection('Likedby')
         .where('liked',
@@ -48,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     });
     super.initState();
-    getintrest();
+    // getintrest();
   }
 
   @override
@@ -91,15 +121,36 @@ class _HomeScreenState extends State<HomeScreen> {
                         Icons.whatshot,
                         color: Colors.white,
                       )),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            PageTransition(
-                                child: Chatuserdisplay(),
-                                type: PageTransitionType.leftToRight));
-                      },
-                      icon: Icon(Icons.chat, color: Colors.white)),
+                  Stack(
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: Chatuserdisplay(),
+                                    type: PageTransitionType.leftToRight));
+                            setState(() {
+                              chats = 0;
+                            });
+                          },
+                          icon: Icon(Icons.chat, color: Colors.white)),
+                      Positioned(
+                          top: 10,
+                          right: 15,
+                          child: CircleAvatar(
+                            radius: 7,
+                            backgroundColor: Colors.red,
+                            child: Text(
+                              chats.toString() == 0
+                                  ? Text('0')
+                                  : chats.toString(),
+                              style: GoogleFonts.josefinSans(
+                                  color: Colors.white, fontSize: 10),
+                            ),
+                          ))
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 30,
@@ -125,18 +176,37 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  IconButton(
-                      icon: Icon(
-                        Icons.notifications_active_rounded,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            PageTransition(
-                                child: Notifications(),
-                                type: PageTransitionType.leftToRight));
-                      }),
+                  Stack(children: [
+                    IconButton(
+                        icon: Icon(
+                          Icons.notifications_active_rounded,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  child: Notifications(),
+                                  type: PageTransitionType.leftToRight));
+                          setState(() {
+                            likes = 0;
+                          });
+                        }),
+                    Positioned(
+                        top: 10,
+                        right: 15,
+                        child: CircleAvatar(
+                          radius: 7,
+                          backgroundColor: Colors.red,
+                          child: Text(
+                            likes.toString() == 0
+                                ? Text('0')
+                                : likes.toString(),
+                            style: GoogleFonts.josefinSans(
+                                fontSize: 10, color: Colors.white),
+                          ),
+                        ))
+                  ]),
                   IconButton(
                       onPressed: () {
                         Navigator.push(
@@ -280,6 +350,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           .docs[
                                                                       index]
                                                                   ['imageurl'],
+                                                                  'imageofuser':imageofuser,
                                                           'liked': snapshot.data
                                                                   .docs[index]
                                                               ['username']

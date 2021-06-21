@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meet_ups/Pages/HomeScreen.dart';
+import 'package:meet_ups/Pages/Info.dart';
 import 'package:meet_ups/Services/Sharedpreferences.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -53,7 +54,9 @@ class _NotificationsState extends State<Notifications> {
         child: Container(
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
-                .collection('Likedby').where('liked',isEqualTo:Meetup.sharedPreferences.getString('username'))
+                .collection('Likedby')
+                .where('liked',
+                    isEqualTo: Meetup.sharedPreferences.getString('username'))
                 // .doc(Meetup.sharedPreferences.getString('username'))
                 .snapshots(),
             builder: (context, snapshot) {
@@ -69,23 +72,38 @@ class _NotificationsState extends State<Notifications> {
                       scrollDirection: Axis.vertical,
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.grey[100], width: 1)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: Info(
+                                      
+                                    ),
+                                    type: PageTransitionType.leftToRight));
+                          },
+                          child: Container(
+                            height: 60,
                             child: Row(
                               children: [
-                                Icon(Icons.favorite_sharp,
-                                    color: Colors.red[800]),
-                                Text(
-                                  " This person ${(snapshot.data.docs[index]['name'])} has liked your profile",
-                                  style: GoogleFonts.josefinSans(
-                                      color: Colors.grey[800],
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
+                                SizedBox(
+                                  width: 20,
                                 ),
+                                CircleAvatar(
+                                  radius: 20,
+                                  backgroundColor: Colors.grey,
+                                  backgroundImage: NetworkImage(
+                                      snapshot.data.docs[index]['imageofuser']),
+                                ),
+                                SizedBox(width: 20),
+                                Text(
+                                  snapshot.data.docs[index]['name'] +
+                                      " liked your'e profile",
+                                  style: GoogleFonts.josefinSans(
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 1,
+                                      color: Colors.black),
+                                )
                               ],
                             ),
                           ),

@@ -221,7 +221,7 @@ class _IntrestState extends State<Intrest> {
                     FirebaseFirestore.instance
                         .collection('Category')
                         .doc(Meetup.sharedPreferences.getString('uid'))
-                        .collection("Intrests")
+                        .collection("Intrest")
                         .doc('Naturo')
                         .set({
                       'name': 'Naturo',

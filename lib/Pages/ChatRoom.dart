@@ -211,8 +211,8 @@ String userimage;
                                 .collection('ChatRoom')
                                 .doc(chatroom_id)
                                 .set({
-                                // 'messagedby': Meetup.sharedPreferences
-                                //     .getString('username'),
+                                'senddby': Meetup.sharedPreferences
+                                    .getString('username'),
                                 'users': [
                                   Meetup.sharedPreferences
                                       .getString('username'),

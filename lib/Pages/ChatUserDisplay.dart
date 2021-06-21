@@ -14,6 +14,27 @@ class Chatuserdisplay extends StatefulWidget {
 }
 
 class _ChatuserdisplayState extends State<Chatuserdisplay> {
+  String userimage;
+  @override
+  void initState() {
+    // TODO: implement initState
+     FirebaseFirestore.instance
+        .collection('Category')
+        .doc(Meetup.sharedPreferences.getString('uid'))
+        .get()
+        .then((value) {
+      print(value);
+      print(value.data()['imageurl']);
+
+      setState(() {
+        userimage = value.data()['imageurl'];
+        Meetup.sharedPreferences.setString("userimage", userimage);
+        print(userimage);
+      });
+    });
+  
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,8 +93,7 @@ class _ChatuserdisplayState extends State<Chatuserdisplay> {
                                               [0]
                                           : snapshot.data.docs[index]['users']
                                               [1],
-                                      image: Meetup.sharedPreferences
-                                                  .getString('userimage') ==
+                                      image: userimage ==
                                               snapshot.data.docs[index]
                                                   ['imageurl'][0]
                                           ? snapshot.data.docs[index]['imageurl'][1]
