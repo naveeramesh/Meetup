@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meet_ups/Pages/ChatRoom.dart';
+import 'package:meet_ups/Services/Sharedpreferences.dart';
 import 'package:page_transition/page_transition.dart';
 
 class Info extends StatefulWidget {
@@ -13,27 +15,90 @@ class Info extends StatefulWidget {
 }
 
 class _InfoState extends State<Info> {
-  List userintrest = [];
-  getintrest() async {
-    FirebaseFirestore.instance.collection('Category').get().then((value) {
-      value.docs.forEach((element) {
-        setState(() {
-          userintrest.add(element.data()['intrest']);
-          print(userintrest);
-        });
+  String imageofuser;
+  String acceptance = " ";
+  @override
+  void initState() {
+    var firebaseuser = FirebaseAuth.instance.currentUser;
+    // TODO: implement initState
+
+    FirebaseFirestore.instance
+        .collection('Category')
+        .doc(Meetup.sharedPreferences.getString('uid'))
+        .get()
+        .then((value) {
+      print(value.data());
+      print(value.data()['imageurl']);
+      setState(() {
+        imageofuser = value.data()['imageurl'];
       });
     });
-    @override
-    void initState() {
-      // TODO: implement initState
-      super.initState();
-      getintrest();
-    }
+
+    FirebaseFirestore.instance
+        .collection('Accept')
+        .doc(widget.snapshots['uid'])
+        .get()
+        .then((value) {
+      print(value.data());
+      print(value.data()['accepted']);
+      setState(() {
+        acceptance = value.data()['accepted'];
+      });
+    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            acceptance == 'yes'
+                ? Navigator.push(
+                    context,
+                    PageTransition(
+                        child: ChatRoom(
+                          info: widget.snapshots['username'],
+                          image: widget.snapshots['imageurl'],
+                        ),
+                        type: PageTransitionType.leftToRight))
+                : showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                          title: Text("Request your'e friend "),
+                          actions: [
+                            FlatButton(
+                              textColor: Colors.black,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('CANCEL'),
+                            ),
+                            FlatButton(
+                              textColor: Colors.black,
+                              onPressed: () {
+                                FirebaseFirestore.instance
+                                    .collection('Request')
+                                    .doc(Meetup.sharedPreferences
+                                        .getString('uid'))
+                                    .set({
+                                  'requestedby': Meetup.sharedPreferences
+                                      .getString('username'),
+                                  'reqyestedbyimage': imageofuser,
+                                  'requestto': widget.snapshots['username'],
+                                  'requesttoimage': widget.snapshots['imageurl']
+                                }).whenComplete(() {
+                                  Navigator.pop(context);
+                                });
+                              },
+                              child: Text('Request'),
+                            ),
+                          ],
+                        ));
+          },
+          backgroundColor: Colors.purple,
+          child: Icon(Icons.chat),
+        ),
         backgroundColor: Colors.white,
         body: Column(
           children: [
@@ -166,28 +231,6 @@ class _InfoState extends State<Info> {
                           letterSpacing: 1,
                           fontSize: 20),
                     ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right:20.0),
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              child: ChatRoom(
-                                info: widget.snapshots['username'],
-                                image: widget.snapshots['imageurl'],
-                              ),
-                              type: PageTransitionType.leftToRight));
-                    },
-                    backgroundColor: Colors.purple,
-                    child: Icon(Icons.chat),
                   ),
                 ),
               ],

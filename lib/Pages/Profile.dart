@@ -315,7 +315,8 @@ class _CategoryState extends State<Category> {
                             'age': widget.age,
                             'intrest': widget.intrests,
                             'gender': widget.gender,
-                            'email':Meetup.sharedPreferences.getString("email")
+                            'email':Meetup.sharedPreferences.getString("email"),
+                            'uid':Meetup.sharedPreferences.getString('uid')
                           }).whenComplete(() {
                             Navigator.pushReplacement(
                                 context,

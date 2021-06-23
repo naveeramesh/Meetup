@@ -39,9 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     // print(Meetup.sharedPreferences.getString('uid'));
-    var firebaseUser=FirebaseAuth.instance.currentUser;
+    var firebaseUser = FirebaseAuth.instance.currentUser;
     // TODO: implement initState
-     FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection('Category')
         .doc(firebaseUser.uid)
         .get()
@@ -137,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icon(Icons.chat, color: Colors.white)),
                       Positioned(
                           top: 10,
-                          right: 15,
+                          right: 10,
                           child: CircleAvatar(
                             radius: 7,
                             backgroundColor: Colors.red,
@@ -350,7 +350,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           .docs[
                                                                       index]
                                                                   ['imageurl'],
-                                                                  'imageofuser':imageofuser,
+                                                          'imageofuser':
+                                                              imageofuser,
                                                           'liked': snapshot.data
                                                                   .docs[index]
                                                               ['username']

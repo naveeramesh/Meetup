@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meet_ups/Pages/Appinfo.dart';
-import 'package:meet_ups/Pages/Editprofile.dart';
-import 'package:meet_ups/Pages/HomeScreen.dart';
 import 'package:meet_ups/Pages/LikedPosts.dart';
 import 'package:meet_ups/Pages/SplashScreen.dart';
 import 'package:meet_ups/Services/Sharedpreferences.dart';
@@ -62,16 +60,14 @@ class _AccountState extends State<Account> {
       // ),
       backgroundColor: Colors.white,
       body: Container(
-        child: 
-        Column(
+        child: Column(
           children: [
             Container(
                 height: 180,
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         colors: <Color>[Colors.purple, Colors.pink])),
-                child: 
-                StreamBuilder(
+                child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('Category')
                       .where('username',
@@ -86,14 +82,11 @@ class _AccountState extends State<Account> {
                             Colors.purpleAccent),
                       ));
                     } else {
-                      return 
-                      Container(
+                      return Container(
                         child: ListView.builder(
                           itemCount: snapshot.data.docs.length,
-                          
                           itemBuilder: (BuildContext context, int index) {
-                            return 
-                            Container(
+                            return Container(
                               height: 150,
                               decoration: BoxDecoration(
                                   gradient: LinearGradient(colors: <Color>[
@@ -347,7 +340,7 @@ class _AccountState extends State<Account> {
               ),
             ),
             SizedBox(
-              height: 50,
+              height: 200,
             ),
             Expanded(
               child: Container(
@@ -358,6 +351,9 @@ class _AccountState extends State<Account> {
                         topRight: Radius.circular(40))),
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 20,
+                    ),
                     ListTile(
                         leading:
                             Icon(Icons.favorite_border, color: Colors.black),
@@ -405,31 +401,8 @@ class _AccountState extends State<Account> {
                               color: Colors.black,
                               letterSpacing: 1),
                         )),
-                         ListTile(
-                        leading: Icon(Icons.edit, color: Colors.black),
-                        trailing: IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      child: Editprofile(),
-                                      type: PageTransitionType.leftToRight));
-                            },
-                            icon: Icon(
-                              Icons.arrow_forward_ios_outlined,
-                              color: Colors.black,
-                              size: 18,
-                            )),
-                        title: Text(
-                          'Edit Profile',
-                          style: GoogleFonts.josefinSans(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              letterSpacing: 1),
-                        )),
                     SizedBox(
-                      height: 150,
+                      height: 30,
                     ),
                     GestureDetector(
                       onTap: () {
