@@ -297,147 +297,129 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                       ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 450.0),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 20.0),
-                                                  child: Text(
-                                                    '${snapshot.data.docs[index]['username']},',
-                                                    style:
-                                                        GoogleFonts.josefinSans(
-                                                            color: Colors.white
-                                                                .withOpacity(
-                                                                    0.8),
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 40),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  '${(snapshot.data.docs[index]['age'])}',
+                                      Column(
+                                        children: [
+                                          Spacer(),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 20.0),
+                                                child: Text(
+                                                  '${snapshot.data.docs[index]['username']},',
                                                   style:
                                                       GoogleFonts.josefinSans(
-                                                    color: Colors.white
-                                                        .withOpacity(0.8),
-                                                    fontSize: 30,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
+                                                          color: Colors.white
+                                                              .withOpacity(0.8),
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 40),
                                                 ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 10.0),
-                                                  child: IconButton(
-                                                      onPressed: () {
-                                                        FirebaseFirestore
-                                                            .instance
-                                                            .collection(
-                                                                'Likedby')
-                                                            .add({
-                                                          'name': Meetup
-                                                              .sharedPreferences
-                                                              .getString(
-                                                                  'username'),
-                                                          'imageurloflikedperson':
-                                                              snapshot.data
-                                                                          .docs[
-                                                                      index]
-                                                                  ['imageurl'],
-                                                          'imageofuser':
-                                                              imageofuser,
-                                                          'liked': snapshot.data
-                                                                  .docs[index]
-                                                              ['username']
-                                                        }).whenComplete(() {
-                                                          Toast.show('Liked ❤',
-                                                              context,
-                                                              duration: Toast
-                                                                  .LENGTH_SHORT,
-                                                              gravity:
-                                                                  Toast.BOTTOM);
-                                                        });
-                                                      },
-                                                      icon: Icon(
-                                                        Icons.favorite_sharp,
-                                                        color: Colors.red[800],
-                                                      )),
+                                              ),
+                                              Text(
+                                                '${(snapshot.data.docs[index]['age'])}',
+                                                style: GoogleFonts.josefinSans(
+                                                  color: Colors.white
+                                                      .withOpacity(0.8),
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 20.0),
-                                                  child: Container(
-                                                    constraints: BoxConstraints(
-                                                        maxWidth: 300),
-                                                    height: 40,
-                                                    decoration: BoxDecoration(
-                                                      // color: Colors.grey.withOpacity(0.8),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                    ),
-                                                    child: Text(
-
-                                                        // userintrest[index].toString().replaceAll('[','').replaceAll(']', ''),
-                                                        '${snapshot.data.docs[index]['intrest']}'
-                                                            .replaceAll('[', '')
-                                                            .replaceAll(
-                                                                ']', ''),
-                                                        style: GoogleFonts
-                                                            .josefinSans(
-                                                                fontSize: 20,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .white)),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 20.0),
-                                                  child: Icon(
-                                                    Icons.location_on_rounded,
-                                                    color: Colors.purple,
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 10.0),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 10.0),
+                                                child: IconButton(
+                                                    onPressed: () {
+                                                      FirebaseFirestore.instance
+                                                          .collection('Likedby')
+                                                          .add({
+                                                        'name': Meetup
+                                                            .sharedPreferences
+                                                            .getString(
+                                                                'username'),
+                                                        'imageurloflikedperson':
+                                                            snapshot.data
+                                                                    .docs[index]
+                                                                ['imageurl'],
+                                                        'imageofuser':
+                                                            imageofuser,
+                                                        'liked': snapshot.data
+                                                                .docs[index]
+                                                            ['username']
+                                                      }).whenComplete(() {
+                                                        Toast.show(
+                                                            'Liked ❤', context,
+                                                            duration: Toast
+                                                                .LENGTH_SHORT,
+                                                            gravity:
+                                                                Toast.BOTTOM);
+                                                      });
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.favorite_sharp,
+                                                      color: Colors.red[800],
+                                                    )),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 20.0),
+                                                child: Container(
+                                                  constraints: BoxConstraints(
+                                                      maxWidth: 300),
                                                   child: Text(
-                                                    snapshot.data.docs[index]
-                                                        ['location'],
-                                                    style:
-                                                        GoogleFonts.josefinSans(
-                                                            fontSize: 20,
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  ),
+                                                      '${snapshot.data.docs[index]['intrest']}'
+                                                          .replaceAll('[', '')
+                                                          .replaceAll(']', ''),
+                                                      style: GoogleFonts
+                                                          .josefinSans(
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: Colors
+                                                                  .white)),
                                                 ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      )
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 20.0),
+                                                child: Icon(
+                                                  Icons.location_on_rounded,
+                                                  color: Colors.purple,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10.0),
+                                                child: Text(
+                                                  snapshot.data.docs[index]
+                                                      ['location'],
+                                                  style:
+                                                      GoogleFonts.josefinSans(
+                                                          fontSize: 20,
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 )),

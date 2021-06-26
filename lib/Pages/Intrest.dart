@@ -59,9 +59,6 @@ class _IntrestState extends State<Intrest> {
                           fontSize: 30,
                           fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
                     Container(
                       height: 3,
                       width: 50,
@@ -74,9 +71,6 @@ class _IntrestState extends State<Intrest> {
                   ],
                 ),
               ],
-            ),
-            SizedBox(
-              height: 50,
             ),
             Container(
                 height: 300, child: Image.asset('assets/images/logo1.png')),
@@ -97,7 +91,7 @@ class _IntrestState extends State<Intrest> {
               ],
             ),
             SizedBox(
-              height: 50,
+              height: 20,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -103,7 +103,7 @@ class _InfoState extends State<Info> {
         body: Column(
           children: [
             Container(
-              height: 550,
+              height: MediaQuery.of(context).size.height-300,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
