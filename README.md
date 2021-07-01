@@ -12,6 +12,7 @@ Stacks Used:
 * 2️⃣ Dart - Programming language
 * 3️⃣ Firebase - Backend
 * 4️⃣ Explored many packages you can refer though
+* 5️⃣ Completed with full functionalities
 
 Features:
 
