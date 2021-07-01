@@ -4,13 +4,23 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+🤠 This is one of my flutter project where many has been posted.
 
-A few resources to get you started if this is your first Flutter project:
+Here you can find your'e twin soul of same intrest and interact with them
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Stacks Used:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1️⃣ Flutter -Google Framework UI kit
+2️⃣ Dart - Programming language
+3️⃣ Firebase - Backend
+4️⃣ Explored many packages you can refer though
+
+Features:
+
+💥 Register via mail and passoword.
+💥 Login and update the password if you have forgotten.
+💥 Set profile.
+💥 Select your'e intrest.
+💥 Select your sub intrest based on the intrest you had been selected.
+💥 View others profile and like their post also can view whom had liked your'e picture.
+💥 Make a request to the perosn whom you like for chat purpose.
