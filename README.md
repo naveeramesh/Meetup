@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-🤠 This is one of my flutter project where many has been posted.
+🤠 This is one of my flutter project where many had been posted.
 
 Here you can find your'e twin soul of same intrest and interact with them
 
