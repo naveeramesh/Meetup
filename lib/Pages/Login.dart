@@ -76,49 +76,53 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Container(
-          child: Column(
-            children: [
-              SizedBox(width: 500),
-              Padding(
-                padding: const EdgeInsets.only(top: 100.0),
-                child: Text(
-                  'Meet Up'.toUpperCase(),
-                  style: GoogleFonts.josefinSans(
-                      fontSize: 30,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.purple),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                height: 3,
-                width: 50,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: <Color>[Colors.purple, Colors.pinkAccent])),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Text("Find your'e twin soul",
-                  style: GoogleFonts.josefinSans(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.grey,
-                  )),
-              SizedBox(
-                height: 100,
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Text(
+                        'Meet Up'.toUpperCase(),
+                        style: GoogleFonts.josefinSans(
+                            fontSize: 30,
+                            letterSpacing: 2,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      height: 3,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: <Color>[
+                        Colors.purple,
+                        Colors.pinkAccent
+                      ])),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text("Find your'e twin soul",
+                          style: GoogleFonts.josefinSans(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.grey,
+                          )),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 4,
+                    ),
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 30.0, right: 30),
@@ -186,9 +190,10 @@ class _LoginState extends State<Login> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 300,
-                    ),
+                  ],
+                ),
+                Column(
+                  children: [
                     GestureDetector(
                       onTap: () {
                         _login();
@@ -226,14 +231,18 @@ class _LoginState extends State<Login> {
                                 child: Signin(),
                                 type: PageTransitionType.leftToRight));
                       },
-                      child: Text('New User ? Create account',
-                          style: GoogleFonts.josefinSans(
-                              fontWeight: FontWeight.bold, color: Colors.grey)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: Text('New User ? Create account',
+                            style: GoogleFonts.josefinSans(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey)),
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

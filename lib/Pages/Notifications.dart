@@ -32,7 +32,8 @@ class _NotificationsState extends State<Notifications> {
         child: Icon(Icons.arrow_back),
       ),
       backgroundColor: Colors.white,
-      appBar: new PreferredSize(
+      appBar:
+      new PreferredSize(
           preferredSize: Size(MediaQuery.of(context).size.width,
               MediaQuery.of(context).size.height),
           child: Container(
@@ -60,52 +61,50 @@ class _NotificationsState extends State<Notifications> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
-                      height: 30,
-                      width: 50,
-                      child: Center(
-                        child: Column(
-                          children: [
-                            Text('Likes',
-                                style: GoogleFonts.josefinSans(
-                                    color: Colors.black,
-                                    letterSpacing: 1,
-                                    fontWeight: FontWeight.bold)),
-                            Container(
-                              height: 3,
-                              width: 20,
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(colors: <Color>[
-                                Colors.purple,
-                                Colors.pinkAccent
-                              ])),
-                            )
-                          ],
-                        ),
+                    Center(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text('Likes',
+                              style: GoogleFonts.josefinSans(
+                                  color: Colors.black,
+                                  letterSpacing: 1,
+                                  fontWeight: FontWeight.bold)),
+                          Container(
+                            height: 3,
+                            width: 20,
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(colors: <Color>[
+                              Colors.purple,
+                              Colors.pinkAccent
+                            ])),
+                          )
+                        ],
                       ),
                     ),
-                    Container(
-                      height: 30,
-                      width: 50,
-                      child: Center(
-                        child: Column(
-                          children: [
-                            Text('Request',
-                                style: GoogleFonts.josefinSans(
-                                    color: Colors.black,
-                                    letterSpacing: 1,
-                                    fontWeight: FontWeight.bold)),
-                            Container(
-                              height: 3,
-                              width: 20,
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(colors: <Color>[
-                                Colors.purple,
-                                Colors.pinkAccent
-                              ])),
-                            )
-                          ],
-                        ),
+                    Center(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text('Request',
+                              style: GoogleFonts.josefinSans(
+                                  color: Colors.black,
+                                  letterSpacing: 1,
+                                  fontWeight: FontWeight.bold)),
+                          Container(
+                            height: 3,
+                            width: 20,
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(colors: <Color>[
+                              Colors.purple,
+                              Colors.pinkAccent
+                            ])),
+                          )
+                        ],
                       ),
                     ),
                   ]),

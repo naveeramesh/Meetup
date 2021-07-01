@@ -326,27 +326,34 @@ class _CategoryState extends State<Category> {
                             });
                           });
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Container(
-                      width: 200,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: <Color>[
-                            Colors.purple,
-                            Colors.pinkAccent
-                          ]),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: Text(
-                          'Next',
-                          style: GoogleFonts.josefinSans(
-                              color: Colors.white,
-                              fontSize: 20,
-                              letterSpacing: 1,
-                              fontWeight: FontWeight.bold),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      
+                      Container(
+                        height:60,
+                        width: 200,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: <Color>[
+                              Colors.purple,
+                              Colors.pinkAccent
+                            ]),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                          child: Text(
+                            'Next',
+                            style: GoogleFonts.josefinSans(
+                                color: Colors.white,
+                                fontSize: 20,
+                                letterSpacing: 1,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-                    ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ],
                   ),
                 ),
               ),

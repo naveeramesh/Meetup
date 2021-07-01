@@ -22,7 +22,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   TextEditingController messagecontroller = TextEditingController();
   String name;
-String userimage;
+  String userimage;
   @override
   void initState() {
     // TODO: implement initState
@@ -147,12 +147,6 @@ String userimage;
                                           ? Alignment.topRight
                                           : Alignment.topLeft,
                                       child: Container(
-                                        // height:MediaQuery.of(context).size.height*0.021,
-                                        // width:
-                                        //     MediaQuery.of(context).size.width *0.4,
-                                        //  constraints: BoxConstraints(
-                                        //    maxHeight:50,
-                                        //  maxWidth:100 ),
                                         decoration: BoxDecoration(
                                             borderRadius: snapshot
                                                             .data.docs[index]
@@ -219,10 +213,7 @@ String userimage;
                                   name
                                 ],
                                 'chatroomid': chatroom_id,
-                                'imageurl': [
-                                 userimage,
-                                  widget.image
-                                ]
+                                'imageurl': [userimage, widget.image]
                               });
                         FirebaseFirestore.instance
                             .collection('ChatRoom')
@@ -235,7 +226,7 @@ String userimage;
                           'sendby':
                               Meetup.sharedPreferences.getString('username'),
                         }).whenComplete(() {
-                          messagecontroller.clear();
+                          // messagecontroller.clear();
 
                           scrollController.animateTo(
                             scrollController.position.maxScrollExtent,

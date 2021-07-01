@@ -103,7 +103,7 @@ class _InfoState extends State<Info> {
         body: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height-300,
+              height: MediaQuery.of(context).size.height / 1.8,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
@@ -196,7 +196,9 @@ class _InfoState extends State<Info> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
                   child: Container(
-                    constraints: BoxConstraints(maxHeight: 300, maxWidth: 400),
+                    constraints: BoxConstraints(
+                        maxHeight: 300,
+                        maxWidth: MediaQuery.of(context).size.width - 50),
                     child: Text(
                       widget.snapshots['about'],
                       style: GoogleFonts.josefinSans(

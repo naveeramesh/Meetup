@@ -72,11 +72,13 @@ class _SigninState extends State<Signin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: Form(
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -94,7 +96,7 @@ class _SigninState extends State<Signin> {
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Container(
                   height: 3,
@@ -104,7 +106,7 @@ class _SigninState extends State<Signin> {
                           colors: <Color>[Colors.purple, Colors.pinkAccent])),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Text("Find your'e twin soul",
                     style: GoogleFonts.josefinSans(
@@ -115,141 +117,128 @@ class _SigninState extends State<Signin> {
                 SizedBox(
                   height: 20,
                 ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 30, left: 30.0, right: 30),
-                          child: TextFormField(
-                            validator: (val) {
-                              return val.length < 4
-                                  ? 'Provide a valid username'
-                                  : null;
-                            },
-                            cursorColor: Colors.purple,
-                            style: GoogleFonts.josefinSans(color: Colors.black),
-                            controller: usernamecontroller,
-                            decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                hintText: 'Username',
-                                hintStyle: GoogleFonts.josefinSans(
-                                    color: Colors.grey, letterSpacing: 1)),
-                          ),
-                        ),
+                Container(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 30, left: 30.0, right: 30),
+                    child: TextFormField(
+                      validator: (val) {
+                        return val.length < 4
+                            ? 'Provide a valid username'
+                            : null;
+                      },
+                      cursorColor: Colors.purple,
+                      style: GoogleFonts.josefinSans(color: Colors.black),
+                      controller: usernamecontroller,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          hintText: 'Username',
+                          hintStyle: GoogleFonts.josefinSans(
+                              color: Colors.black, letterSpacing: 1)),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30.0, right: 30),
+                    child: TextFormField(
+                      validator: (val) {
+                        return RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(val)
+                            ? null
+                            : "Please provide a valid email";
+                      },
+                      cursorColor: Colors.purple,
+                      style: GoogleFonts.josefinSans(
+                        color: Colors.black,
                       ),
-                      SizedBox(
-                        height: 30,
+                      controller: emailcontroller,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          hintText: 'Email',
+                          hintStyle: GoogleFonts.josefinSans(
+                              color: Colors.black, letterSpacing: 1)),
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 30, left: 30.0, right: 30),
+                    child: TextFormField(
+                      validator: (val) {
+                        return val.length < 4
+                            ? 'Provide a strong password'
+                            : null;
+                      },
+                      cursorColor: Colors.purple,
+                      style: GoogleFonts.josefinSans(color: Colors.black),
+                      controller: passwordcontroller,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          hintText: 'Password',
+                          hintStyle: GoogleFonts.josefinSans(
+                              color: Colors.black, letterSpacing: 1)),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height - 500,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _signin();
+                  },
+                  child: Container(
+                    height: 60,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: <Color>[Colors.purple, Colors.pinkAccent]),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Register',
+                        style: GoogleFonts.josefinSans(
+                            color: Colors.white,
+                            letterSpacing: 1,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 30.0, right: 30),
-                          child: TextFormField(
-                            validator: (val) {
-                              return RegExp(
-                                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                      .hasMatch(val)
-                                  ? null
-                                  : "Please provide a valid email";
-                            },
-                            cursorColor: Colors.purple,
-                            style: GoogleFonts.josefinSans(
-                              color: Colors.black,
-                            ),
-                            controller: emailcontroller,
-                            decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                hintText: 'Email',
-                                hintStyle: GoogleFonts.josefinSans(
-                                    color: Colors.grey, letterSpacing: 1)),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 30, left: 30.0, right: 30),
-                          child: TextFormField(
-                            validator: (val) {
-                              return val.length < 4
-                                  ? 'Provide a strong password'
-                                  : null;
-                            },
-                            cursorColor: Colors.purple,
-                            style: GoogleFonts.josefinSans(color: Colors.black),
-                            controller: passwordcontroller,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                hintText: 'Password',
-                                hintStyle: GoogleFonts.josefinSans(
-                                    color: Colors.grey, letterSpacing: 1)),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height - 500,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _signin();
-                        },
-                        child: Container(
-                          height: 60,
-                          width: 200,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(colors: <Color>[
-                              Colors.purple,
-                              Colors.pinkAccent
-                            ]),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Register',
-                              style: GoogleFonts.josefinSans(
-                                  color: Colors.white,
-                                  letterSpacing: 1,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushReplacement(
-                              context,
-                              PageTransition(
-                                  child: Login(),
-                                  type: PageTransitionType.leftToRight));
-                        },
-                        child: Text('Already an User ? Login',
-                            style: GoogleFonts.josefinSans(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey)),
-                      ),
-                    ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                            child: Login(),
+                            type: PageTransitionType.leftToRight));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Text('Already an User ? Login',
+                        style: GoogleFonts.josefinSans(
+                            fontWeight: FontWeight.bold, color: Colors.grey)),
                   ),
                 ),
               ],

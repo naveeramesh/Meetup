@@ -21,17 +21,16 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-            height: 100,
-          ),
           Container(
             child: Column(
               children: [
-                Container(
-                    height: 400, child: Image.asset('assets/images/logo1.png')),
-                SizedBox(
-                  height: 40,
+                Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: Container(
+                      height: MediaQuery.of(context).size.height / 2,
+                      child: Image.asset('assets/images/logo1.png')),
                 ),
                 Text(
                   'Meet Up',
@@ -42,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       color: Colors.purple),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Container(
                   height: 3,
@@ -52,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           colors: <Color>[Colors.purple, Colors.pinkAccent])),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -87,18 +86,17 @@ class _SplashScreenState extends State<SplashScreen> {
               ],
             ),
           ),
-          Spacer(
-            flex: 3,
-          ),
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushReplacement(
-                    context,
-                    PageTransition(
-                        child: Signin(), type: PageTransitionType.fade));
-              },
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                      child: Signin(), type: PageTransitionType.fade));
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
               child: Container(
+                height: 60,
                 width: 200,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -119,7 +117,6 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
           ),
-          Spacer()
         ],
       ),
     );
