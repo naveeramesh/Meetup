@@ -32,8 +32,7 @@ class _NotificationsState extends State<Notifications> {
         child: Icon(Icons.arrow_back),
       ),
       backgroundColor: Colors.white,
-      appBar:
-      new PreferredSize(
+      appBar: new PreferredSize(
           preferredSize: Size(MediaQuery.of(context).size.width,
               MediaQuery.of(context).size.height),
           child: Container(
@@ -226,10 +225,11 @@ class _NotificationsState extends State<Notifications> {
                                                   .getString('username'),
                                             ]
                                           }).whenComplete(() {
-                                            Toast.show(
-                                                'Accepted the request', context,
-                                                duration: Toast.LENGTH_SHORT,
-                                                backgroundColor: Colors.purple);
+                                            FirebaseFirestore.instance
+                                                .collection("Request")
+                                                .doc(snapshot.data.docs[index]
+                                                    ['id'])
+                                                .delete();
                                           });
                                         },
                                         child: Container(

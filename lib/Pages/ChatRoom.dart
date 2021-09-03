@@ -155,10 +155,12 @@ class _ChatRoomState extends State<ChatRoom> {
                                                         .getString('username')
                                                 ? BorderRadius.only(
                                                     topLeft:
-                                                        Radius.circular(10))
+                                                        Radius.circular(10),
+                                                        bottomLeft: Radius.circular(10))
                                                 : BorderRadius.only(
                                                     topRight:
-                                                        Radius.circular(10)),
+                                                        Radius.circular(10),
+                                                        bottomRight: Radius.circular(10)),
                                             color: snapshot.data.docs[index]
                                                         ['sendby'] ==
                                                     Meetup.sharedPreferences
@@ -167,11 +169,12 @@ class _ChatRoomState extends State<ChatRoom> {
                                                 : Colors.pink),
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 15, horizontal: 20),
+                                              vertical: 10, horizontal: 20),
                                           child: Text(
                                               snapshot.data.docs[index]
                                                   ['chatmessages'],
                                               style: GoogleFonts.josefinSans(
+                                                fontWeight: FontWeight.bold,
                                                 color: Colors.white,
                                               )),
                                         ),
@@ -226,7 +229,7 @@ class _ChatRoomState extends State<ChatRoom> {
                           'sendby':
                               Meetup.sharedPreferences.getString('username'),
                         }).whenComplete(() {
-                          // messagecontroller.clear();
+                          messagecontroller.clear();
 
                           scrollController.animateTo(
                             scrollController.position.maxScrollExtent,

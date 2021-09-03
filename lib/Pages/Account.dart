@@ -61,7 +61,8 @@ class _AccountState extends State<Account> {
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
                             colors: <Color>[Colors.purple, Colors.pink])),
-                    child: StreamBuilder(
+                    child: 
+                    StreamBuilder(
                       stream: FirebaseFirestore.instance
                           .collection('Category')
                           .where('username',

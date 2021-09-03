@@ -329,9 +329,8 @@ class _CategoryState extends State<Category> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      
                       Container(
-                        height:60,
+                        height: 60,
                         width: 200,
                         decoration: BoxDecoration(
                             gradient: LinearGradient(colors: <Color>[

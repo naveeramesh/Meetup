@@ -72,16 +72,19 @@ class _InfoState extends State<Info> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: Text('CANCEL'),
+                              child: Text('Cancel'),
                             ),
                             FlatButton(
                               textColor: Colors.black,
                               onPressed: () {
+                                String id = DateTime.now()
+                                    .millisecondsSinceEpoch
+                                    .toString();
                                 FirebaseFirestore.instance
                                     .collection('Request')
-                                    .doc(Meetup.sharedPreferences
-                                        .getString('uid'))
+                                    .doc(id)
                                     .set({
+                                      'id':id,
                                   'requestedby': Meetup.sharedPreferences
                                       .getString('username'),
                                   'reqyestedbyimage': imageofuser,

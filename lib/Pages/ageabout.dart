@@ -37,9 +37,8 @@ class _AboutState extends State<About> {
         },
         child: Icon(Icons.arrow_forward),
       ),
-      body:
-       SingleChildScrollView(
-                child: Container(
+      body: SingleChildScrollView(
+        child: Container(
           child: Column(
             children: [
               SizedBox(
@@ -104,8 +103,13 @@ class _AboutState extends State<About> {
                       Container(
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                                colors: <Color>[Colors.purple, Colors.pink])),
+                            gradient: gender == "Female"
+                                ? LinearGradient(
+                                    colors: <Color>[Colors.purple, Colors.pink])
+                                : LinearGradient(colors: <Color>[
+                                    Colors.grey,
+                                    Colors.white
+                                  ])),
                         child: CircleAvatar(
                             radius: 30,
                             backgroundColor: Colors.transparent,
@@ -117,7 +121,9 @@ class _AboutState extends State<About> {
                                 size: 30,
                               ),
                               onPressed: () {
-                                gender = 'Female';
+                                setState(() {
+                                  gender = "Female";
+                                });
                               },
                             ))),
                       ),
@@ -139,8 +145,13 @@ class _AboutState extends State<About> {
                       Container(
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                                colors: <Color>[Colors.purple, Colors.pink])),
+                            gradient: gender == "Male"
+                                ? LinearGradient(
+                                    colors: <Color>[Colors.purple, Colors.pink])
+                                : LinearGradient(colors: <Color>[
+                                    Colors.grey,
+                                    Colors.white
+                                  ])),
                         child: CircleAvatar(
                             radius: 30,
                             backgroundColor: Colors.transparent,
@@ -152,7 +163,9 @@ class _AboutState extends State<About> {
                                 size: 30,
                               ),
                               onPressed: () {
-                                gender = 'Male';
+                                setState(() {
+                                  gender = "Male";
+                                });
                               },
                             ))),
                       ),
@@ -174,8 +187,13 @@ class _AboutState extends State<About> {
                       Container(
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                                colors: <Color>[Colors.purple, Colors.pink])),
+                            gradient: gender == "Other"
+                                ? LinearGradient(
+                                    colors: <Color>[Colors.purple, Colors.pink])
+                                : LinearGradient(colors: <Color>[
+                                    Colors.grey,
+                                    Colors.white
+                                  ])),
                         child: CircleAvatar(
                             radius: 30,
                             backgroundColor: Colors.transparent,
@@ -187,7 +205,9 @@ class _AboutState extends State<About> {
                                 size: 30,
                               ),
                               onPressed: () {
-                                gender = 'Other';
+                                setState(() {
+                                  gender = "Other";
+                                });
                               },
                             ))),
                       ),
@@ -251,8 +271,8 @@ class _AboutState extends State<About> {
               ),
             ],
           ),
+        ),
       ),
-       ),
     );
   }
 }
